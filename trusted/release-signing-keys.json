@@ -1,0 +1,5 @@
+{
+  "schema": "pokrov.release-index.keyring/v1",
+  "status": "BLOCKED_OWNER_KEY_PROVISIONING",
+  "keys": []
+}

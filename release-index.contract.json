@@ -1,0 +1,50 @@
+{
+  "schema": "pokrov.release-index.contract/v1",
+  "repository": "Kiwunaka/pokrov",
+  "promotion_branch": "main",
+  "candidate_manifest_path": "releases/1.2.0/release-index.json",
+  "manifest_schema": {
+    "path": "schemas/release-index-manifest-v2.schema.json",
+    "sha256": "9342fbe1d3124742dad85d598f6b4aaeab58e5d2057ca3edc7a895ada865fe5e"
+  },
+  "trusted_keyring_path": "trusted/release-signing-keys.json",
+  "development_target": {
+    "product_version": "1.2.0",
+    "state": "PRE_CANDIDATE_LOCAL",
+    "candidate_created": false,
+    "promotion_authorized": false
+  },
+  "signature_policy": {
+    "algorithm": "ed25519",
+    "threshold": 1,
+    "detached_signature_suffix": ".sig",
+    "signed_payload": "exact_manifest_bytes"
+  },
+  "same_byte_policy": {
+    "require_artifact_sha256": true,
+    "require_github_asset_digest_match": true,
+    "require_manifest_signature": true,
+    "stable_pointer_atomic": true,
+    "rebuild_on_promotion": false
+  },
+  "retained_public_release": {
+    "version": "1.1.6",
+    "tag": "v1.1.6",
+    "release_id": 373029908,
+    "source_revision": "d0bf8e8c70ebeaa241f4c8f5b8a4452fd339ed15",
+    "trust_state": "LEGACY_CHECKSUM_ONLY_NOT_CANDIDATE_ELIGIBLE",
+    "manifest_signature": false,
+    "tag_kind": "lightweight",
+    "commit_signature_verified": false,
+    "asset_count": 8,
+    "sha256sums_sha256": "b30c9cd93ea3b4e7c4f030cc7253fe60a8bbd767e4a045130e92e594b13e015b",
+    "windows_manifest_sha256": "2e4383b901629aeb1998b7774e7e308a333a77c5233335a4200cf5677803886d",
+    "known_limitations": [
+      "no_detached_manifest_signature",
+      "no_source_commit_binding",
+      "no_sbom_or_provenance_binding",
+      "windows_publisher_signature_absent",
+      "legacy_windows_manifest_contains_local_build_paths"
+    ]
+  }
+}
