@@ -28,8 +28,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
-    env:
-      SIGNED_OUTPUT: ${{ runner.temp }}/pokrov-signed-candidate
     steps:
       - name: Checkout exact main revision
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -58,20 +56,20 @@ jobs:
           --template-sha256 "${TEMPLATE_SHA256}"
           --candidate-id "${CANDIDATE_ID}"
           --release-index-commit "${GITHUB_SHA}"
-          --output-dir "${SIGNED_OUTPUT}"
+          --output-dir "${RUNNER_TEMP}/pokrov-signed-candidate"
 
       - name: Revalidate signed output without private key
         run: >-
           python -B scripts/validate_release_index.py
           --require-ready
-          --manifest "${SIGNED_OUTPUT}/release-index.json"
-          --signature "${SIGNED_OUTPUT}/release-index.json.sig"
+          --manifest "${RUNNER_TEMP}/pokrov-signed-candidate/release-index.json"
+          --signature "${RUNNER_TEMP}/pokrov-signed-candidate/release-index.json.sig"
 
       - name: Upload signed candidate evidence only
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: pokrov-${{ inputs.candidate_id }}-signed-manifest-${{ github.sha }}
-          path: ${{ env.SIGNED_OUTPUT }}/
+          path: ${{ runner.temp }}/pokrov-signed-candidate/
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
