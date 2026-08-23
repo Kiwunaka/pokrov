@@ -1,0 +1,4 @@
+releases/*/release-index.json
+releases/*/release-index.json.sig
+__pycache__/
+*.pyc

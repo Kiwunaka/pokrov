@@ -1,0 +1,15 @@
+{
+  "schema": "pokrov.release-index.keyring/v1",
+  "status": "READY_OWNER_KEY_PROVISIONED",
+  "keys": [
+    {
+      "id": "pokrov-release-2026-01",
+      "state": "active",
+      "algorithm": "ed25519",
+      "public_key_base64": "RKv9GwH986ZFNYSJwEHuMqHpMO14weECyN+k/kLW4B0=",
+      "public_key_sha256": "651d1bcfbedecc4e50d21f3ad3bf3cc990a6cfc97ad355f0e0e76972b8ba8024",
+      "created_at": "2026-08-23T03:49:57Z",
+      "purpose": "POKROV 1.2.0 exact release-index manifest signatures"
+    }
+  ]
+}

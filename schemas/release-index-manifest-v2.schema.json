@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pokrov.space/schemas/release-index-manifest-v2.schema.json",
+  "title": "POKROV signed public release index manifest v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "candidate_id",
+    "candidate_created",
+    "promotion_authorized",
+    "product",
+    "sources",
+    "contracts",
+    "compatibility",
+    "artifacts",
+    "release_notes",
+    "known_issues",
+    "promotion"
+  ],
+  "properties": {
+    "schema": {
+      "const": "pokrov.release-index.manifest/v2"
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^pokrov-1\\.2\\.0-[a-z0-9][a-z0-9._-]{7,95}$"
+    },
+    "candidate_created": {
+      "const": true
+    },
+    "promotion_authorized": {
+      "type": "boolean"
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "build", "package_version", "channel", "state"],
+      "properties": {
+        "version": {"const": "1.2.0"},
+        "build": {"type": "integer", "minimum": 30},
+        "package_version": {"type": "string", "pattern": "^1\\.2\\.0\\+[0-9]+$"},
+        "channel": {"enum": ["candidate", "stable"]},
+        "state": {"enum": ["CANDIDATE", "RELEASED"]}
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "client", "core", "release_index"],
+      "properties": {
+        "platform": {"$ref": "#/$defs/revision"},
+        "client": {"$ref": "#/$defs/revision"},
+        "core": {"$ref": "#/$defs/revision"},
+        "release_index": {"$ref": "#/$defs/revision"}
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "release_handoff_sha256",
+        "product_facts_sha256",
+        "error_catalog_sha256",
+        "observability_schema_sha256"
+      ],
+      "properties": {
+        "release_handoff_sha256": {"$ref": "#/$defs/sha256"},
+        "product_facts_sha256": {"$ref": "#/$defs/sha256"},
+        "error_catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "observability_schema_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core_version", "desktop_abi", "event_abi", "android_min_sdk", "windows_min_version"],
+      "properties": {
+        "core_version": {"const": "1.1.0"},
+        "desktop_abi": {"const": 2},
+        "event_abi": {"const": 1},
+        "android_min_sdk": {"type": "integer", "minimum": 23},
+        "windows_min_version": {"type": "string", "minLength": 1, "maxLength": 64}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 16,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "release_notes": {"$ref": "#/$defs/public_document"},
+    "known_issues": {"$ref": "#/$defs/public_document"},
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rebuild", "same_byte_required", "stable_pointer_atomic", "rollback_target"],
+      "properties": {
+        "rebuild": {"const": false},
+        "same_byte_required": {"const": true},
+        "stable_pointer_atomic": {"const": true},
+        "rollback_target": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 3, "maxLength": 128},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "public_document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "sha256"],
+      "properties": {
+        "url": {"type": "string", "pattern": "^https://"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "platform",
+        "kind",
+        "name",
+        "size",
+        "sha256",
+        "github_asset_digest",
+        "url",
+        "architectures",
+        "signing",
+        "sbom_sha256",
+        "provenance_sha256"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"},
+        "platform": {"enum": ["android", "windows"]},
+        "kind": {"enum": ["apk", "aab", "exe", "msi", "zip"]},
+        "name": {"type": "string", "minLength": 3, "maxLength": 128},
+        "size": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "github_asset_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "url": {"type": "string", "pattern": "^https://github\\.com/Kiwunaka/pokrov/releases/download/"},
+        "architectures": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["armeabi-v7a", "arm64-v8a", "x86", "x86_64", "universal"]}
+        },
+        "signing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "identity", "fingerprint", "lineage_sha256"],
+          "properties": {
+            "status": {"const": "TRUSTED"},
+            "identity": {"type": "string", "minLength": 3, "maxLength": 256},
+            "fingerprint": {"type": "string", "minLength": 16, "maxLength": 256},
+            "lineage_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "sbom_sha256": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "provenance_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}
