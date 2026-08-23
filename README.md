@@ -36,3 +36,28 @@ python -B scripts/validate_release_index.py
 
 Use `--require-ready` only in a candidate workflow. It fails closed while the
 trusted keyring is empty or any required candidate input is absent.
+
+## Candidate signing control
+
+`Prepare signed candidate manifest` is a manual, `main`-only Actions workflow.
+It does not create a GitHub Release, upload public release assets, update a
+stable pointer, authorize promotion, or write back to the repository.
+
+The reviewed input must first be committed under
+`candidate-inputs/1.2.0/<name>.json`. It is a complete v2 candidate manifest
+template with `sources.release_index.commit` set to forty zeroes,
+`promotion_authorized=false`, candidate channel/state, and rollback target
+`1.1.6`. The operator dispatches the workflow with the exact tracked path,
+template SHA-256, and candidate id. The signer then:
+
+1. requires a clean checkout and byte equality with `HEAD`;
+2. binds `sources.release_index.commit` to the dispatched `main` SHA;
+3. emits deterministic canonical UTF-8 JSON;
+4. signs the exact bytes using `POKROV_RELEASE_SIGNING_KEY_PEM` from Actions;
+5. verifies the signature against the public keyring and v2 schema; and
+6. uploads the manifest, raw 64-byte signature, and public receipt as a
+   14-day Actions artifact only.
+
+The private key is accepted only through the process environment, never as a
+CLI argument or repository file. The current repository contains no 1.2.0
+candidate template, so merging this control cannot create or sign a candidate.
