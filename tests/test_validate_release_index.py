@@ -16,12 +16,13 @@ SPEC.loader.exec_module(MODULE)
 
 
 class ReleaseIndexSourceTest(unittest.TestCase):
-    def test_current_source_is_valid_but_owner_key_blocked(self) -> None:
+    def test_current_source_is_valid_with_owner_key(self) -> None:
         summary, active_keys = MODULE.validate_source(ROOT)
 
-        self.assertEqual(summary["status"], "BLOCKED_OWNER_SIGNING_KEY")
-        self.assertEqual(summary["active_signing_keys"], 0)
-        self.assertEqual(active_keys, [])
+        self.assertEqual(summary["status"], "CONTRACT_READY_PRE_CANDIDATE")
+        self.assertEqual(summary["active_signing_keys"], 1)
+        self.assertEqual(active_keys[0]["id"], "pokrov-release-2026-01")
+        self.assertEqual(len(active_keys[0]["public_key"]), 32)
         self.assertFalse(summary["candidate_created"])
         self.assertFalse(summary["promotion_authorized"])
 

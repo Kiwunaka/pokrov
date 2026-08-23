@@ -21,10 +21,12 @@ used as proof for a new candidate.
 
 `release-index.contract.json` defines the pre-candidate source policy and
 `schemas/release-index-manifest-v2.schema.json` defines the future exact public
-manifest. The trusted keyring is intentionally empty until the owner provisions
-and reviews the public half of the release signing key. Therefore 1.2.0 remains
-`PRE_CANDIDATE_LOCAL`; candidate creation, signing, publication and promotion
-are not authorized by this repository state.
+manifest. The trusted keyring contains the reviewed public half of
+`pokrov-release-2026-01`; the private half is excluded from Git and retained in
+the owner-controlled `POKROV_RELEASE_SIGNING_KEY_PEM` Actions secret. The source
+contract is ready, but 1.2.0 remains `PRE_CANDIDATE_LOCAL`: no candidate
+manifest or artifact signature exists yet, and publication/promotion is not
+authorized by this repository state.
 
 Run the source check with:
 
