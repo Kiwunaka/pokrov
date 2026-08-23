@@ -259,9 +259,11 @@ class ReleaseIndexSourceTest(unittest.TestCase):
             "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
             "retention-days: 14",
             "persist-credentials: false",
+            '${RUNNER_TEMP}/pokrov-signed-candidate',
         ):
             self.assertIn(marker, workflow)
         self.assertEqual(workflow.count("secrets.POKROV_RELEASE_SIGNING_KEY_PEM"), 1)
+        self.assertNotIn("SIGNED_OUTPUT:", workflow)
         self.assertNotIn("contents: write", workflow)
         self.assertNotIn("gh release", workflow)
         self.assertIn('os.environ.pop("POKROV_RELEASE_SIGNING_KEY_PEM", "")', signer)
