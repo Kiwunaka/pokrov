@@ -67,9 +67,11 @@ template SHA-256, and candidate id. The signer then:
    14-day Actions artifact only.
 
 The private key is accepted only through the process environment, never as a
-CLI argument or repository file. The tracked `pokrov-1.2.0-candidate.1`
-template binds the exact local `.3+30` Android/Windows artifact set, source
-tuple, SBOM, provenance, release notes and known issues. Tracking that reviewed
-input does not create, sign or publish a candidate. The manual workflow must
-still bind the zero-commit placeholder to exact `main`, sign the canonical
-bytes and retain the artifact receipt before candidate creation is proved.
+CLI argument or repository file. Tracked candidate templates bind an exact
+Android/Windows artifact set, source tuple, SBOM, provenance, release notes and
+known issues. Candidate 1 retains the rejected Windows SCM behavior as history;
+candidate 2 binds the fail-closed replacement and freshly rebuilt artifact set.
+Tracking a reviewed input does not create, sign or publish a candidate. The
+manual workflow must still bind the zero-commit placeholder to exact `main`,
+sign the canonical bytes and retain the artifact receipt before candidate
+creation is proved.
