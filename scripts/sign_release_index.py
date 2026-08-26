@@ -180,6 +180,9 @@ def prepare_signed_manifest(
             "signature_sha256": ready["signature_sha256"],
             "signing_key_id": ready["signing_key_id"],
             "artifact_count": ready["artifact_count"],
+            "owner_unsigned_windows_exception_count": ready[
+                "owner_unsigned_windows_exception_count"
+            ],
             "promotion_authorized": False,
             "output_kind": "ACTIONS_ARTIFACT_ONLY",
         }
