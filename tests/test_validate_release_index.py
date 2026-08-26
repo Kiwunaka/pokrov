@@ -312,6 +312,57 @@ class ReleaseIndexSourceTest(unittest.TestCase):
                 )
             self.assertFalse(rejected_output.exists())
 
+    def test_tracked_candidate_template_prepares_with_ephemeral_key(self) -> None:
+        from cryptography.hazmat.primitives import serialization
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import (
+            Ed25519PrivateKey,
+        )
+
+        private_key = Ed25519PrivateKey.generate()
+        private_pem = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+        public_key = private_key.public_key().public_bytes(
+            encoding=serialization.Encoding.Raw,
+            format=serialization.PublicFormat.Raw,
+        )
+        template_path = (
+            ROOT
+            / "candidate-inputs"
+            / "1.2.0"
+            / "pokrov-1.2.0-candidate.1.json"
+        )
+        template_bytes = template_path.read_bytes()
+        template_sha256 = hashlib.sha256(template_bytes).hexdigest()
+        head = MODULE._git_head(ROOT)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "signed-candidate"
+            receipt = SIGN_MODULE.prepare_signed_manifest(
+                ROOT,
+                template_bytes=template_bytes,
+                expected_template_sha256=template_sha256,
+                expected_candidate_id="pokrov-1.2.0-candidate.1",
+                release_index_commit=head,
+                private_key_pem=private_pem,
+                active_keys=[
+                    {"id": "synthetic-exact-template-key", "public_key": public_key}
+                ],
+                output_dir=output,
+            )
+            manifest = json.loads((output / "release-index.json").read_text("utf-8"))
+            self.assertEqual(receipt["artifact_count"], 6)
+            self.assertEqual(receipt["owner_unsigned_windows_exception_count"], 1)
+            self.assertEqual(receipt["signing_key_id"], "synthetic-exact-template-key")
+            self.assertFalse(receipt["promotion_authorized"])
+            self.assertEqual(manifest["sources"]["release_index"]["commit"], head)
+            self.assertEqual(
+                manifest["artifacts"][-1]["signing"]["status"],
+                "SKIPPED_BY_OWNER",
+            )
+
     def test_signing_workflow_is_artifact_only_and_secretless_at_rest(self) -> None:
         workflow = (ROOT / ".github/workflows/prepare-signed-candidate.yml").read_text(
             encoding="utf-8"
