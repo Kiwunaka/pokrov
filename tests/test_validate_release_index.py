@@ -367,6 +367,9 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/prepare-signed-candidate.yml").read_text(
             encoding="utf-8"
         )
+        contract_workflow = (
+            ROOT / ".github/workflows/release-index-contract.yml"
+        ).read_text(encoding="utf-8")
         signer = SIGN_MODULE_PATH.read_text(encoding="utf-8")
         for marker in (
             "workflow_dispatch:",
@@ -390,6 +393,7 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
         self.assertIn("* text=auto eol=lf", attributes)
         self.assertIn("*.sig -text", attributes)
+        self.assertIn("workflow_dispatch:", contract_workflow)
 
 
 if __name__ == "__main__":
