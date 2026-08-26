@@ -5,6 +5,7 @@ import importlib.util
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import sys
 import tempfile
 import unittest
@@ -41,6 +42,10 @@ class ReleaseIndexSourceTest(unittest.TestCase):
             summary["candidate_template_ids"],
             ["pokrov-1.2.0-candidate.1", "pokrov-1.2.0-candidate.2"],
         )
+        self.assertEqual(summary["candidate_evidence"], 1)
+        self.assertEqual(
+            summary["candidate_evidence_ids"], ["pokrov-1.2.0-candidate.2"]
+        )
         self.assertFalse(summary["candidate_created"])
         self.assertFalse(summary["promotion_authorized"])
 
@@ -75,6 +80,36 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         )
         with self.assertRaisesRegex(MODULE.ValidationError, "signature is not trusted"):
             MODULE._verify_signature(payload + b" ", signature, active_keys)
+
+    def test_candidate_evidence_rejects_false_promotion_claim(self) -> None:
+        candidate_id = "pokrov-1.2.0-candidate.2"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            template_root = root / "candidate-inputs" / "1.2.0"
+            evidence_root = root / "candidate-evidence" / "1.2.0"
+            template_root.mkdir(parents=True)
+            evidence_root.mkdir(parents=True)
+            shutil.copy2(
+                ROOT / "candidate-inputs" / "1.2.0" / f"{candidate_id}.json",
+                template_root / f"{candidate_id}.json",
+            )
+            source_evidence = (
+                ROOT
+                / "candidate-evidence"
+                / "1.2.0"
+                / f"{candidate_id}-windows-clean-host.json"
+            )
+            evidence = json.loads(source_evidence.read_text(encoding="utf-8"))
+            evidence["stable_pointer_mutated"] = True
+            (evidence_root / source_evidence.name).write_text(
+                json.dumps(evidence, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(
+                MODULE.ValidationError, "stable_pointer_mutated"
+            ):
+                MODULE._validate_candidate_evidence(root)
 
     def _candidate_template(
         self, *, owner_unsigned_windows: bool = False

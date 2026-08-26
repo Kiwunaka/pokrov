@@ -27,14 +27,23 @@ used as proof for a new candidate.
 
 ## 1.2.0 state
 
-`release-index.contract.json` defines the pre-candidate source policy and
-`schemas/release-index-manifest-v2.schema.json` defines the future exact public
+`release-index.contract.json` defines the mutable development-target policy and
+`schemas/release-index-manifest-v2.schema.json` defines the exact public
 manifest. The trusted keyring contains the reviewed public half of
 `pokrov-release-2026-01`; the private half is excluded from Git and retained in
-the owner-controlled `POKROV_RELEASE_SIGNING_KEY_PEM` Actions secret. The source
-contract is ready, but 1.2.0 remains `PRE_CANDIDATE_LOCAL`: no candidate
-manifest or artifact signature exists yet, and publication/promotion is not
-authorized by this repository state.
+the owner-controlled `POKROV_RELEASE_SIGNING_KEY_PEM` Actions secret.
+
+Candidate 2 was generated and signed from exact release-index commit
+`4c6d46c10083e68dc5d2032c13f51c4e80a17049`. Its manifest SHA-256 is
+`1697a1bce4f72314aa1f60cd74a1711f9b8f7d70091c5757e98fbdc09b4ce5e0` and
+its detached signature SHA-256 is
+`ebf259f1a9d3c9d561e3f39123c12804a178da5f15efcb293aeab47d45308a82`.
+The exact unsigned Windows artifact later passed the bounded private clean-host
+gate; the sanitized follow-up record is retained under
+`candidate-evidence/1.2.0/`. Candidate 2 remains private,
+`promotion_authorized=false`, and is neither the public `v1.2.0` release nor a
+stable/latest pointer. The development target stays `PRE_CANDIDATE_LOCAL`
+independently of this immutable candidate snapshot.
 
 Run the source check with:
 
@@ -74,4 +83,7 @@ candidate 2 binds the fail-closed replacement and freshly rebuilt artifact set.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
-creation is proved.
+creation is proved. Candidate inputs, release notes, and known-issues files are
+immutable once their hashes have been signed. Later runtime results are added
+under `candidate-evidence/`; they do not rewrite the signed snapshot or
+authorize promotion.

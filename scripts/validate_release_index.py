@@ -26,6 +26,19 @@ CANDIDATE_1_2_ARTIFACT_IDS = {
     "android-x86-64",
     "windows-x64-setup",
 }
+WINDOWS_CLEAN_HOST_STATUS = (
+    "PASS_EXACT_PRIVATE_CI_INSTALL_SERVICE_IPC_RESTART_UNINSTALL_IDLE_NETWORK"
+)
+WINDOWS_CLEAN_HOST_PASSES = {
+    "clean_host_baseline",
+    "machine_wide_install",
+    "installed_file_identity_8_of_8",
+    "service_install_and_identity",
+    "ui_service_authenticated_ipc",
+    "service_stop_restart",
+    "clean_uninstall",
+    "idle_network_restoration",
+}
 
 
 class ValidationError(ValueError):
@@ -219,6 +232,7 @@ def validate_source(root: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
         raise ValidationError("invalid source contract: " + ", ".join(errors))
 
     candidate_templates = _validate_candidate_templates(root)
+    candidate_evidence = _validate_candidate_evidence(root)
     status = (
         "CONTRACT_READY_PRE_CANDIDATE" if active_keys else "BLOCKED_OWNER_SIGNING_KEY"
     )
@@ -231,6 +245,10 @@ def validate_source(root: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
             "candidate_templates": len(candidate_templates),
             "candidate_template_ids": [
                 template["candidate_id"] for template in candidate_templates
+            ],
+            "candidate_evidence": len(candidate_evidence),
+            "candidate_evidence_ids": [
+                evidence["candidate_id"] for evidence in candidate_evidence
             ],
             "candidate_created": False,
             "promotion_authorized": False,
@@ -397,6 +415,186 @@ def _validate_candidate_templates(root: Path) -> list[dict[str, Any]]:
                 "template_sha256": _sha256(template_path),
                 "artifact_count": len(artifacts),
                 "owner_unsigned_windows_exception_count": owner_exception_count,
+            }
+        )
+    return summaries
+
+
+def _validate_candidate_evidence(root: Path) -> list[dict[str, Any]]:
+    evidence_root = root / "candidate-evidence" / "1.2.0"
+    if not evidence_root.exists():
+        return []
+    if not evidence_root.is_dir():
+        raise ValidationError("candidate-evidence/1.2.0 must be a directory")
+    summaries: list[dict[str, Any]] = []
+    for evidence_path in sorted(evidence_root.glob("*.json")):
+        evidence = _read_object(evidence_path)
+        errors: list[str] = []
+        candidate_id = str(evidence.get("candidate_id") or "")
+        template_path = (
+            root / "candidate-inputs" / "1.2.0" / f"{candidate_id}.json"
+        )
+        _require(
+            evidence.get("schema")
+            == "pokrov.release-index.candidate-evidence/v1",
+            "schema",
+            errors,
+        )
+        _require(
+            evidence.get("evidence_type")
+            == "windows_exact_candidate_clean_host",
+            "evidence_type",
+            errors,
+        )
+        _require(
+            evidence.get("status") == WINDOWS_CLEAN_HOST_STATUS,
+            "status",
+            errors,
+        )
+        _require(template_path.is_file(), "candidate_template", errors)
+        if not template_path.is_file():
+            raise ValidationError(
+                f"invalid candidate evidence {evidence_path.name}: "
+                + ", ".join(errors)
+            )
+        template = _read_object(template_path)
+
+        signed_candidate = evidence.get("signed_candidate", {})
+        if not isinstance(signed_candidate, dict):
+            signed_candidate = {}
+        release_index_commit = str(
+            signed_candidate.get("release_index_commit") or ""
+        )
+        _require(
+            re.fullmatch(r"[0-9a-f]{40}", release_index_commit) is not None
+            and release_index_commit != "0" * 40,
+            "signed_candidate.release_index_commit",
+            errors,
+        )
+        for field in (
+            "manifest_sha256",
+            "manifest_signature_sha256",
+            "signer_receipt_sha256",
+        ):
+            _require(
+                SHA256.fullmatch(str(signed_candidate.get(field) or "")) is not None,
+                f"signed_candidate.{field}",
+                errors,
+            )
+        _require(
+            signed_candidate.get("promotion_authorized") is False,
+            "signed_candidate.promotion_authorized",
+            errors,
+        )
+
+        template_windows = next(
+            (
+                artifact
+                for artifact in template["artifacts"]
+                if artifact["id"] == "windows-x64-setup"
+            ),
+            {},
+        )
+        artifact = evidence.get("artifact", {})
+        if not isinstance(artifact, dict):
+            artifact = {}
+        _require(
+            artifact.get("name") == template_windows.get("name"),
+            "artifact.name",
+            errors,
+        )
+        _require(
+            artifact.get("size_bytes") == template_windows.get("size"),
+            "artifact.size_bytes",
+            errors,
+        )
+        _require(
+            artifact.get("sha256") == template_windows.get("sha256"),
+            "artifact.sha256",
+            errors,
+        )
+        _require(
+            artifact.get("signing_status") == OWNER_UNSIGNED_WINDOWS_STATUS,
+            "artifact.signing_status",
+            errors,
+        )
+        _require(
+            artifact.get("owner_exception") == OWNER_UNSIGNED_WINDOWS_EXCEPTION,
+            "artifact.owner_exception",
+            errors,
+        )
+
+        source_tuple = evidence.get("source_tuple", {})
+        if not isinstance(source_tuple, dict):
+            source_tuple = {}
+        for source_id in ("platform", "client", "core"):
+            _require(
+                source_tuple.get(source_id)
+                == template["sources"][source_id]["commit"],
+                f"source_tuple.{source_id}",
+                errors,
+            )
+        _require(
+            source_tuple.get("release_index") == release_index_commit,
+            "source_tuple.release_index",
+            errors,
+        )
+
+        execution = evidence.get("execution", {})
+        if not isinstance(execution, dict):
+            execution = {}
+        _require(
+            execution.get("repository") == "Kiwunaka/POKROV-app",
+            "execution.repository",
+            errors,
+        )
+        _require(
+            execution.get("repository_visibility") == "private",
+            "execution.repository_visibility",
+            errors,
+        )
+        _require(
+            SHA256.fullmatch(str(execution.get("sanitized_evidence_sha256") or ""))
+            is not None,
+            "execution.sanitized_evidence_sha256",
+            errors,
+        )
+
+        passed_checks = evidence.get("passed_checks", [])
+        _require(
+            isinstance(passed_checks, list)
+            and set(passed_checks) == WINDOWS_CLEAN_HOST_PASSES,
+            "passed_checks",
+            errors,
+        )
+        manual_checks = evidence.get("manual_or_blocked_checks", [])
+        _require(
+            isinstance(manual_checks, list)
+            and bool(manual_checks)
+            and all(
+                isinstance(check, str) and check.startswith("MANUAL_OWNER_TEST:")
+                for check in manual_checks
+            ),
+            "manual_or_blocked_checks",
+            errors,
+        )
+        for field in (
+            "production_mutation_performed",
+            "public_release_created",
+            "stable_pointer_mutated",
+        ):
+            _require(evidence.get(field) is False, field, errors)
+        if errors:
+            raise ValidationError(
+                f"invalid candidate evidence {evidence_path.name}: "
+                + ", ".join(errors)
+            )
+        summaries.append(
+            {
+                "candidate_id": candidate_id,
+                "evidence_type": evidence["evidence_type"],
+                "status": evidence["status"],
+                "evidence_sha256": _sha256(evidence_path),
             }
         )
     return summaries
