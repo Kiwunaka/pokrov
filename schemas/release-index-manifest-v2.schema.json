@@ -103,6 +103,25 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "product": {
+            "required": ["channel"],
+            "properties": {"channel": {"const": "stable"}}
+          }
+        }
+      },
+      "then": {"$ref": "#/$defs/trusted_artifacts_only"}
+    },
+    {
+      "if": {
+        "properties": {"promotion_authorized": {"const": true}}
+      },
+      "then": {"$ref": "#/$defs/trusted_artifacts_only"}
+    }
+  ],
   "$defs": {
     "sha256": {
       "type": "string",
@@ -127,6 +146,37 @@
       }
     },
     "artifact": {
+      "oneOf": [
+        {
+          "allOf": [
+            {"$ref": "#/$defs/artifact_base"},
+            {
+              "properties": {
+                "signing": {"$ref": "#/$defs/trusted_signing"}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/artifact_base"},
+            {
+              "properties": {
+                "id": {"const": "windows-x64-setup"},
+                "platform": {"const": "windows"},
+                "kind": {"const": "exe"},
+                "name": {"const": "pokrov-windows-setup-x64.exe"},
+                "architectures": {"const": ["x86_64"]},
+                "signing": {
+                  "$ref": "#/$defs/owner_accepted_unsigned_windows_signing"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "artifact_base": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -158,17 +208,7 @@
           "uniqueItems": true,
           "items": {"enum": ["armeabi-v7a", "arm64-v8a", "x86", "x86_64", "universal"]}
         },
-        "signing": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["status", "identity", "fingerprint", "lineage_sha256"],
-          "properties": {
-            "status": {"const": "TRUSTED"},
-            "identity": {"type": "string", "minLength": 3, "maxLength": 256},
-            "fingerprint": {"type": "string", "minLength": 16, "maxLength": 256},
-            "lineage_sha256": {"$ref": "#/$defs/sha256"}
-          }
-        },
+        "signing": {"type": "object"},
         "sbom_sha256": {
           "type": "array",
           "minItems": 1,
@@ -176,6 +216,56 @@
           "items": {"$ref": "#/$defs/sha256"}
         },
         "provenance_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "trusted_signing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "identity", "fingerprint", "lineage_sha256"],
+      "properties": {
+        "status": {"const": "TRUSTED"},
+        "identity": {"type": "string", "minLength": 3, "maxLength": 256},
+        "fingerprint": {"type": "string", "minLength": 16, "maxLength": 256},
+        "lineage_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "owner_accepted_unsigned_windows_signing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "identity",
+        "fingerprint",
+        "lineage_sha256",
+        "exception_code",
+        "distribution",
+        "warning"
+      ],
+      "properties": {
+        "status": {"const": "SKIPPED_BY_OWNER"},
+        "identity": {"const": "Unknown publisher"},
+        "fingerprint": {"const": "NotSigned"},
+        "lineage_sha256": {"$ref": "#/$defs/sha256"},
+        "exception_code": {
+          "const": "OWNER_ACCEPTED_UNSIGNED_WINDOWS_BETA_1_2_0"
+        },
+        "distribution": {"const": "direct_download_only"},
+        "warning": {
+          "const": "Microsoft Defender SmartScreen and unknown-publisher warning expected"
+        }
+      }
+    },
+    "trusted_artifacts_only": {
+      "properties": {
+        "artifacts": {
+          "items": {
+            "properties": {
+              "signing": {
+                "properties": {"status": {"const": "TRUSTED"}}
+              }
+            }
+          }
+        }
       }
     }
   }

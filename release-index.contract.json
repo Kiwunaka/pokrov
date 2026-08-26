@@ -5,7 +5,7 @@
   "candidate_manifest_path": "releases/1.2.0/release-index.json",
   "manifest_schema": {
     "path": "schemas/release-index-manifest-v2.schema.json",
-    "sha256": "9342fbe1d3124742dad85d598f6b4aaeab58e5d2057ca3edc7a895ada865fe5e"
+    "sha256": "d3724fb84f9ce12b2d3f305205827caca0bd770b025901b02926143e90b05e7c"
   },
   "trusted_keyring_path": "trusted/release-signing-keys.json",
   "development_target": {
@@ -26,6 +26,21 @@
     "require_manifest_signature": true,
     "stable_pointer_atomic": true,
     "rebuild_on_promotion": false
+  },
+  "candidate_exception_policy": {
+    "id": "OWNER_ACCEPTED_UNSIGNED_WINDOWS_BETA_1_2_0",
+    "product_version": "1.2.0",
+    "platform": "windows",
+    "artifact_id": "windows-x64-setup",
+    "artifact_name": "pokrov-windows-setup-x64.exe",
+    "artifact_kind": "exe",
+    "architectures": ["x86_64"],
+    "signing_status": "SKIPPED_BY_OWNER",
+    "distribution": "direct_download_only",
+    "maximum_artifacts": 1,
+    "candidate_only": true,
+    "promotion_authorized": false,
+    "warning": "Microsoft Defender SmartScreen and unknown-publisher warning expected"
   },
   "retained_public_release": {
     "version": "1.1.6",

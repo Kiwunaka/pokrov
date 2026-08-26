@@ -16,6 +16,16 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = Path("release-index.contract.json")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+OWNER_UNSIGNED_WINDOWS_STATUS = "SKIPPED_BY_OWNER"
+OWNER_UNSIGNED_WINDOWS_EXCEPTION = "OWNER_ACCEPTED_UNSIGNED_WINDOWS_BETA_1_2_0"
+CANDIDATE_1_2_ARTIFACT_IDS = {
+    "android-arm64-v8a",
+    "android-armeabi-v7a",
+    "android-market",
+    "android-universal",
+    "android-x86-64",
+    "windows-x64-setup",
+}
 
 
 class ValidationError(ValueError):
@@ -130,6 +140,30 @@ def validate_source(root: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
         errors,
     )
 
+    candidate_exception = contract.get("candidate_exception_policy", {})
+    _require(
+        candidate_exception
+        == {
+            "id": OWNER_UNSIGNED_WINDOWS_EXCEPTION,
+            "product_version": "1.2.0",
+            "platform": "windows",
+            "artifact_id": "windows-x64-setup",
+            "artifact_name": "pokrov-windows-setup-x64.exe",
+            "artifact_kind": "exe",
+            "architectures": ["x86_64"],
+            "signing_status": OWNER_UNSIGNED_WINDOWS_STATUS,
+            "distribution": "direct_download_only",
+            "maximum_artifacts": 1,
+            "candidate_only": True,
+            "promotion_authorized": False,
+            "warning": (
+                "Microsoft Defender SmartScreen and unknown-publisher warning expected"
+            ),
+        },
+        "candidate_exception_policy",
+        errors,
+    )
+
     schema = contract.get("manifest_schema", {})
     if not isinstance(schema, dict):
         schema = {}
@@ -184,6 +218,7 @@ def validate_source(root: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
     if errors:
         raise ValidationError("invalid source contract: " + ", ".join(errors))
 
+    candidate_templates = _validate_candidate_templates(root)
     status = (
         "CONTRACT_READY_PRE_CANDIDATE" if active_keys else "BLOCKED_OWNER_SIGNING_KEY"
     )
@@ -193,6 +228,10 @@ def validate_source(root: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
             "contract_sha256": _sha256(contract_path),
             "manifest_schema_sha256": _sha256(schema_path),
             "active_signing_keys": len(active_keys),
+            "candidate_templates": len(candidate_templates),
+            "candidate_template_ids": [
+                template["candidate_id"] for template in candidate_templates
+            ],
             "candidate_created": False,
             "promotion_authorized": False,
         },
@@ -235,6 +274,134 @@ def _verify_signature(
     raise ValidationError("detached Ed25519 signature is not trusted")
 
 
+def _validate_artifact_signing_policy(manifest: dict[str, Any]) -> int:
+    artifacts = manifest.get("artifacts", [])
+    product = manifest.get("product", {})
+    owner_exceptions: list[dict[str, Any]] = []
+    for artifact in artifacts:
+        signing = artifact.get("signing", {})
+        status = signing.get("status")
+        if status == "TRUSTED":
+            continue
+        if status != OWNER_UNSIGNED_WINDOWS_STATUS:
+            raise ValidationError(
+                f"unsupported signing status for {artifact.get('id', 'unknown')}"
+            )
+        owner_exceptions.append(artifact)
+
+    if not owner_exceptions:
+        return 0
+    if len(owner_exceptions) != 1:
+        raise ValidationError("exactly one owner-approved unsigned artifact is allowed")
+    artifact = owner_exceptions[0]
+    signing = artifact["signing"]
+    exact_exception = (
+        manifest.get("promotion_authorized") is False
+        and product.get("version") == "1.2.0"
+        and product.get("channel") == "candidate"
+        and product.get("state") == "CANDIDATE"
+        and artifact.get("id") == "windows-x64-setup"
+        and artifact.get("platform") == "windows"
+        and artifact.get("kind") == "exe"
+        and artifact.get("name") == "pokrov-windows-setup-x64.exe"
+        and artifact.get("architectures") == ["x86_64"]
+        and signing.get("exception_code") == OWNER_UNSIGNED_WINDOWS_EXCEPTION
+        and signing.get("distribution") == "direct_download_only"
+    )
+    if not exact_exception:
+        raise ValidationError("owner-approved unsigned Windows exception is out of scope")
+    return 1
+
+
+def _validate_candidate_templates(root: Path) -> list[dict[str, Any]]:
+    template_root = root / "candidate-inputs" / "1.2.0"
+    if not template_root.exists():
+        return []
+    if not template_root.is_dir():
+        raise ValidationError("candidate-inputs/1.2.0 must be a directory")
+    schema = _read_object(root / "schemas/release-index-manifest-v2.schema.json")
+    try:
+        from jsonschema import Draft202012Validator
+    except ImportError as exc:
+        raise ValidationError(
+            "candidate template validation requires pinned requirements-release.txt"
+        ) from exc
+    validator = Draft202012Validator(schema)
+    summaries: list[dict[str, Any]] = []
+    for template_path in sorted(template_root.glob("*.json")):
+        manifest = _read_object(template_path)
+        errors = sorted(
+            validator.iter_errors(manifest), key=lambda item: list(item.path)
+        )
+        if errors:
+            first = errors[0]
+            location = ".".join(str(part) for part in first.path) or "root"
+            raise ValidationError(
+                f"candidate template schema violation at {location}: {first.message}"
+            )
+        candidate_id = str(manifest["candidate_id"])
+        if template_path.name != f"{candidate_id}.json":
+            raise ValidationError("candidate template filename must match candidate id")
+        release_index_source = manifest["sources"]["release_index"]
+        if release_index_source != {
+            "repository": "Kiwunaka/pokrov",
+            "commit": "0" * 40,
+        }:
+            raise ValidationError("candidate template release-index placeholder is invalid")
+        expected_repositories = {
+            "platform": "Kiwunaka/portal",
+            "client": "Kiwunaka/POKROV-app",
+            "core": "Kiwunaka/pokrov-core",
+        }
+        for source_id, repository in expected_repositories.items():
+            if manifest["sources"][source_id]["repository"] != repository:
+                raise ValidationError(
+                    f"candidate template repository is invalid for {source_id}"
+                )
+        artifacts = manifest["artifacts"]
+        ids = [artifact["id"] for artifact in artifacts]
+        names = [artifact["name"] for artifact in artifacts]
+        if set(ids) != CANDIDATE_1_2_ARTIFACT_IDS or len(ids) != len(
+            CANDIDATE_1_2_ARTIFACT_IDS
+        ):
+            raise ValidationError("candidate template artifact set is incomplete")
+        if len(names) != len(set(names)):
+            raise ValidationError("candidate template artifact names must be unique")
+        for artifact in artifacts:
+            if artifact["github_asset_digest"] != f"sha256:{artifact['sha256']}":
+                raise ValidationError(
+                    f"candidate template asset digest mismatch for {artifact['id']}"
+                )
+        owner_exception_count = _validate_artifact_signing_policy(manifest)
+        public_documents = {
+            "release_notes": (
+                template_root / f"{candidate_id}-release-notes-ru.md",
+                "POKROV-1.2.0-RELEASE-NOTES-RU.md",
+            ),
+            "known_issues": (
+                template_root / f"{candidate_id}-known-issues-ru.md",
+                "POKROV-1.2.0-KNOWN-ISSUES-RU.md",
+            ),
+        }
+        for document_id, (document_path, asset_name) in public_documents.items():
+            if not document_path.is_file():
+                raise ValidationError(f"candidate {document_id} file is missing")
+            document = manifest[document_id]
+            if document["sha256"] != _sha256(document_path):
+                raise ValidationError(f"candidate {document_id} SHA-256 mismatch")
+            if not document["url"].endswith(f"/{asset_name}"):
+                raise ValidationError(f"candidate {document_id} URL is not canonical")
+        summaries.append(
+            {
+                "candidate_id": candidate_id,
+                "template_sha256": _sha256(template_path),
+                "artifact_count": len(artifacts),
+                "owner_unsigned_windows_exception_count": owner_exception_count,
+            }
+        )
+    return summaries
+
+
 def validate_ready(
     root: Path,
     manifest_path: Path,
@@ -275,6 +442,7 @@ def validate_ready(
     for artifact in artifacts:
         if artifact["github_asset_digest"] != f"sha256:{artifact['sha256']}":
             raise ValidationError(f"GitHub asset digest mismatch for {artifact['id']}")
+    owner_exception_count = _validate_artifact_signing_policy(manifest)
     if manifest["sources"]["release_index"]["commit"] != _git_head(root):
         raise ValidationError("manifest does not bind the exact release-index revision")
     key_id = _verify_signature(manifest_bytes, signature_bytes, active_keys)
@@ -284,6 +452,7 @@ def validate_ready(
         "signature_sha256": hashlib.sha256(signature_bytes).hexdigest(),
         "signing_key_id": key_id,
         "artifact_count": len(artifacts),
+        "owner_unsigned_windows_exception_count": owner_exception_count,
     }
 
 

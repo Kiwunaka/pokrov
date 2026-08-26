@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import importlib.util
 import hashlib
 import json
@@ -35,8 +36,17 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         self.assertEqual(summary["active_signing_keys"], 1)
         self.assertEqual(active_keys[0]["id"], "pokrov-release-2026-01")
         self.assertEqual(len(active_keys[0]["public_key"]), 32)
+        self.assertEqual(summary["candidate_templates"], 1)
+        self.assertEqual(
+            summary["candidate_template_ids"], ["pokrov-1.2.0-candidate.1"]
+        )
         self.assertFalse(summary["candidate_created"])
         self.assertFalse(summary["promotion_authorized"])
+
+        template = MODULE._validate_candidate_templates(ROOT)[0]
+        self.assertEqual(template["artifact_count"], 6)
+        self.assertEqual(template["owner_unsigned_windows_exception_count"], 1)
+        self.assertRegex(template["template_sha256"], r"^[0-9a-f]{64}$")
 
     def test_signature_verifier_accepts_only_exact_bytes(self) -> None:
         from cryptography.hazmat.primitives import serialization
@@ -65,13 +75,28 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ValidationError, "signature is not trusted"):
             MODULE._verify_signature(payload + b" ", signature, active_keys)
 
-    def _candidate_template(self) -> dict[str, object]:
+    def _candidate_template(
+        self, *, owner_unsigned_windows: bool = False
+    ) -> dict[str, object]:
         artifact_signing = {
             "status": "TRUSTED",
             "identity": "synthetic-test-identity",
             "fingerprint": "sha256:" + "1" * 64,
             "lineage_sha256": "2" * 64,
         }
+        windows_signing = artifact_signing
+        if owner_unsigned_windows:
+            windows_signing = {
+                "status": "SKIPPED_BY_OWNER",
+                "identity": "Unknown publisher",
+                "fingerprint": "NotSigned",
+                "lineage_sha256": "3" * 64,
+                "exception_code": "OWNER_ACCEPTED_UNSIGNED_WINDOWS_BETA_1_2_0",
+                "distribution": "direct_download_only",
+                "warning": (
+                    "Microsoft Defender SmartScreen and unknown-publisher warning expected"
+                ),
+            }
         return {
             "schema": "pokrov.release-index.manifest/v2",
             "candidate_id": "pokrov-1.2.0-synthetic-test",
@@ -122,16 +147,16 @@ class ReleaseIndexSourceTest(unittest.TestCase):
                     "provenance_sha256": "c" * 64,
                 },
                 {
-                    "id": "windows-x64",
+                    "id": "windows-x64-setup",
                     "platform": "windows",
                     "kind": "exe",
-                    "name": "pokrov-windows-x64-setup.exe",
+                    "name": "pokrov-windows-setup-x64.exe",
                     "size": 202,
                     "sha256": "d" * 64,
                     "github_asset_digest": "sha256:" + "d" * 64,
                     "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0-candidate/windows.exe",
                     "architectures": ["x86_64"],
-                    "signing": artifact_signing,
+                    "signing": windows_signing,
                     "sbom_sha256": ["e" * 64],
                     "provenance_sha256": "f" * 64,
                 },
@@ -152,6 +177,41 @@ class ReleaseIndexSourceTest(unittest.TestCase):
             },
         }
 
+    def test_unsigned_windows_exception_is_candidate_only_and_exact(self) -> None:
+        from jsonschema import Draft202012Validator
+
+        schema = MODULE._read_object(
+            ROOT / "schemas/release-index-manifest-v2.schema.json"
+        )
+        validator = Draft202012Validator(schema)
+        candidate = self._candidate_template(owner_unsigned_windows=True)
+        self.assertEqual(list(validator.iter_errors(candidate)), [])
+        self.assertEqual(MODULE._validate_artifact_signing_policy(candidate), 1)
+
+        wrong_artifact = copy.deepcopy(candidate)
+        wrong_artifact["artifacts"][1]["name"] = "pokrov-windows-portable-x64.zip"
+        self.assertNotEqual(list(validator.iter_errors(wrong_artifact)), [])
+
+        stable = copy.deepcopy(candidate)
+        stable["product"]["channel"] = "stable"
+        stable["product"]["state"] = "RELEASED"
+        stable["promotion_authorized"] = True
+        self.assertNotEqual(list(validator.iter_errors(stable)), [])
+        with self.assertRaisesRegex(
+            MODULE.ValidationError, "unsigned Windows exception is out of scope"
+        ):
+            MODULE._validate_artifact_signing_policy(stable)
+
+        unsigned_android = copy.deepcopy(candidate)
+        unsigned_android["artifacts"][0]["signing"] = copy.deepcopy(
+            unsigned_android["artifacts"][1]["signing"]
+        )
+        self.assertNotEqual(list(validator.iter_errors(unsigned_android)), [])
+        with self.assertRaisesRegex(
+            MODULE.ValidationError, "exactly one owner-approved unsigned artifact"
+        ):
+            MODULE._validate_artifact_signing_policy(unsigned_android)
+
     def test_candidate_signer_is_deterministic_and_exact_byte_bound(self) -> None:
         from cryptography.hazmat.primitives import serialization
         from cryptography.hazmat.primitives.asymmetric.ed25519 import (
@@ -169,7 +229,12 @@ class ReleaseIndexSourceTest(unittest.TestCase):
             format=serialization.PublicFormat.Raw,
         )
         template_bytes = (
-            json.dumps(self._candidate_template(), ensure_ascii=False, indent=2) + "\n"
+            json.dumps(
+                self._candidate_template(owner_unsigned_windows=True),
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n"
         ).encode("utf-8")
         template_sha256 = hashlib.sha256(template_bytes).hexdigest()
         active_keys = [{"id": "synthetic-test-key", "public_key": public_key}]
@@ -209,6 +274,9 @@ class ReleaseIndexSourceTest(unittest.TestCase):
             self.assertEqual(manifest["sources"]["release_index"]["commit"], head)
             self.assertFalse(first_receipt["promotion_authorized"])
             self.assertEqual(first_receipt["output_kind"], "ACTIONS_ARTIFACT_ONLY")
+            self.assertEqual(
+                first_receipt["owner_unsigned_windows_exception_count"], 1
+            )
 
         with tempfile.TemporaryDirectory() as temporary:
             with self.assertRaisesRegex(MODULE.ValidationError, "template SHA-256 mismatch"):
@@ -244,10 +312,64 @@ class ReleaseIndexSourceTest(unittest.TestCase):
                 )
             self.assertFalse(rejected_output.exists())
 
+    def test_tracked_candidate_template_prepares_with_ephemeral_key(self) -> None:
+        from cryptography.hazmat.primitives import serialization
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import (
+            Ed25519PrivateKey,
+        )
+
+        private_key = Ed25519PrivateKey.generate()
+        private_pem = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+        public_key = private_key.public_key().public_bytes(
+            encoding=serialization.Encoding.Raw,
+            format=serialization.PublicFormat.Raw,
+        )
+        template_path = (
+            ROOT
+            / "candidate-inputs"
+            / "1.2.0"
+            / "pokrov-1.2.0-candidate.1.json"
+        )
+        template_bytes = template_path.read_bytes()
+        template_sha256 = hashlib.sha256(template_bytes).hexdigest()
+        head = MODULE._git_head(ROOT)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "signed-candidate"
+            receipt = SIGN_MODULE.prepare_signed_manifest(
+                ROOT,
+                template_bytes=template_bytes,
+                expected_template_sha256=template_sha256,
+                expected_candidate_id="pokrov-1.2.0-candidate.1",
+                release_index_commit=head,
+                private_key_pem=private_pem,
+                active_keys=[
+                    {"id": "synthetic-exact-template-key", "public_key": public_key}
+                ],
+                output_dir=output,
+            )
+            manifest = json.loads((output / "release-index.json").read_text("utf-8"))
+            self.assertEqual(receipt["artifact_count"], 6)
+            self.assertEqual(receipt["owner_unsigned_windows_exception_count"], 1)
+            self.assertEqual(receipt["signing_key_id"], "synthetic-exact-template-key")
+            self.assertFalse(receipt["promotion_authorized"])
+            self.assertEqual(manifest["sources"]["release_index"]["commit"], head)
+            self.assertEqual(
+                manifest["artifacts"][-1]["signing"]["status"],
+                "SKIPPED_BY_OWNER",
+            )
+
     def test_signing_workflow_is_artifact_only_and_secretless_at_rest(self) -> None:
         workflow = (ROOT / ".github/workflows/prepare-signed-candidate.yml").read_text(
             encoding="utf-8"
         )
+        contract_workflow = (
+            ROOT / ".github/workflows/release-index-contract.yml"
+        ).read_text(encoding="utf-8")
         signer = SIGN_MODULE_PATH.read_text(encoding="utf-8")
         for marker in (
             "workflow_dispatch:",
@@ -268,6 +390,10 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         self.assertNotIn("gh release", workflow)
         self.assertIn('os.environ.pop("POKROV_RELEASE_SIGNING_KEY_PEM", "")', signer)
         self.assertNotIn("--private-key", signer)
+        attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+        self.assertIn("* text=auto eol=lf", attributes)
+        self.assertIn("*.sig -text", attributes)
+        self.assertIn("workflow_dispatch:", contract_workflow)
 
 
 if __name__ == "__main__":

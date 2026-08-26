@@ -12,6 +12,14 @@ exact manifest bytes have a detached Ed25519 signature from an active key in
 the repository keyring. Promotion must reuse the same bytes; rebuilding during
 promotion is forbidden.
 
+The owner-approved 1.2.0 Windows direct-beta exception is narrower than a
+trusted release claim. One candidate manifest may mark only
+`pokrov-windows-setup-x64.exe` as `SKIPPED_BY_OWNER`, direct-download-only, with
+the exact SmartScreen/unknown-publisher warning. Android remains production
+signed. A stable manifest or any authorized promotion rejects the unsigned
+exception; trusted, Store and broad-stable Windows claims still require a
+valid Authenticode signer.
+
 The retained 1.1.6 line predates this contract. It has GitHub SHA-256 digests
 and `SHA256SUMS.txt`, but no detached manifest signature or signed source/SBOM
 binding. It is `LEGACY_CHECKSUM_ONLY_NOT_CANDIDATE_ELIGIBLE` and must not be
@@ -59,5 +67,9 @@ template SHA-256, and candidate id. The signer then:
    14-day Actions artifact only.
 
 The private key is accepted only through the process environment, never as a
-CLI argument or repository file. The current repository contains no 1.2.0
-candidate template, so merging this control cannot create or sign a candidate.
+CLI argument or repository file. The tracked `pokrov-1.2.0-candidate.1`
+template binds the exact local `.3+30` Android/Windows artifact set, source
+tuple, SBOM, provenance, release notes and known issues. Tracking that reviewed
+input does not create, sign or publish a candidate. The manual workflow must
+still bind the zero-commit placeholder to exact `main`, sign the canonical
+bytes and retain the artifact receipt before candidate creation is proved.
