@@ -1,0 +1,64 @@
+{
+  "schema": "pokrov.release-index.candidate-evidence/v1",
+  "candidate_id": "pokrov-1.2.0-candidate.3",
+  "evidence_type": "windows_exact_candidate_clean_host",
+  "status": "PASS_EXACT_PRIVATE_CI_INSTALL_SERVICE_IPC_RESTART_UNINSTALL_IDLE_NETWORK",
+  "recorded_at_utc": "2026-08-27T02:27:27.3240237Z",
+  "signed_candidate": {
+    "release_index_commit": "6a1afa95fe52da2d559ba7b1da88715cd0344bb2",
+    "manifest_sha256": "a2752b6a3b95faacf13a68edb708c560966a0f5eb8727e109d7f1603fdc81090",
+    "manifest_signature_sha256": "926f0b4667a58ba9cc5ace5c4e6c3c8129d1ec3d4d449b3f0831a8c527cd7121",
+    "signer_receipt_sha256": "fb4d0d5dd272b8d3e7ea2303e2ffa93e332f54ac3e92f245400decc6c06e4b53",
+    "signer_key_id": "pokrov-release-2026-01",
+    "promotion_authorized": false
+  },
+  "artifact": {
+    "name": "pokrov-windows-setup-x64.exe",
+    "size_bytes": 28898240,
+    "sha256": "9962e3e80947dae374619ed388fc08b7322bffda38202a42e5812597c7818021",
+    "authenticode": "NotSigned",
+    "signing_status": "SKIPPED_BY_OWNER",
+    "owner_exception": "OWNER_ACCEPTED_UNSIGNED_WINDOWS_BETA_1_2_0"
+  },
+  "source_tuple": {
+    "client": "ac22825e857a313c9e4eba61030eb548d6346ead",
+    "core": "344b317a7a09eca7943a93866b193553538bd8f6",
+    "platform": "eafaca3e64c0619dea7f58fc9c430682b4520559",
+    "release_index": "6a1afa95fe52da2d559ba7b1da88715cd0344bb2"
+  },
+  "execution": {
+    "repository": "Kiwunaka/POKROV-app",
+    "repository_visibility": "private",
+    "workflow": "Windows Exact Candidate Clean Host",
+    "workflow_commit": "745c81fcf7c1f4ff524c7174f2b0495b998c7f3e",
+    "github_run_id": "33033294889",
+    "github_run_attempt": "1",
+    "runner_environment": "github-hosted",
+    "runner_os": "Windows",
+    "runner_image_os": "win25-vs2026",
+    "runner_image_version": "20260824.214.3",
+    "sanitized_evidence_sha256": "494f0cd7f6409b0eb0fb2f180e31ad78af7b767b1c9ae66186540f0b31a21c62"
+  },
+  "passed_checks": [
+    "clean_host_baseline",
+    "machine_wide_install",
+    "installed_file_identity_8_of_8",
+    "service_install_and_identity",
+    "ui_service_authenticated_ipc",
+    "service_stop_restart",
+    "clean_uninstall",
+    "idle_network_restoration"
+  ],
+  "manual_or_blocked_checks": [
+    "MANUAL_OWNER_TEST: live TUN and full-tunnel traffic",
+    "MANUAL_OWNER_TEST: DNS capture and leak protection while connected",
+    "MANUAL_OWNER_TEST: authenticated egress through an owned profile",
+    "MANUAL_OWNER_TEST: sleep, reboot, and crash recovery",
+    "MANUAL_OWNER_TEST: uninstall while connected",
+    "MANUAL_OWNER_TEST: interactive SmartScreen reputation observation"
+  ],
+  "evidence_ceiling": "EXACT_PRIVATE_CI_INSTALL_SERVICE_AUTHENTICATED_IPC_RESTART_UNINSTALL_AND_NO_IDLE_NETWORK_MUTATION_ONLY",
+  "production_mutation_performed": false,
+  "public_release_created": false,
+  "stable_pointer_mutated": false
+}

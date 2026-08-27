@@ -46,9 +46,10 @@ class ReleaseIndexSourceTest(unittest.TestCase):
                 "pokrov-1.2.0-candidate.3",
             ],
         )
-        self.assertEqual(summary["candidate_evidence"], 1)
+        self.assertEqual(summary["candidate_evidence"], 2)
         self.assertEqual(
-            summary["candidate_evidence_ids"], ["pokrov-1.2.0-candidate.2"]
+            summary["candidate_evidence_ids"],
+            ["pokrov-1.2.0-candidate.2", "pokrov-1.2.0-candidate.3"],
         )
         self.assertFalse(summary["candidate_created"])
         self.assertFalse(summary["promotion_authorized"])
