@@ -45,6 +45,14 @@ gate; the sanitized follow-up record is retained under
 stable/latest pointer. The development target stays `PRE_CANDIDATE_LOCAL`
 independently of this immutable candidate snapshot.
 
+Candidate 3 has a reviewed source template binding the corrected SPB
+advertisement, client stale-variant recovery, exact production-signed Android
+artifacts, the owner-approved unsigned Windows direct-beta artifact, SBOM and
+provenance. Its exact APK passed upgrade/start/settings-persistence checks in
+LDPlayer, but the expired emulator entitlement blocked catalog and tunnel
+proof. The template is not a created or signed candidate until the manual
+signing workflow succeeds against its exact `main` commit.
+
 Run the source check with:
 
 ```text
@@ -80,6 +88,7 @@ CLI argument or repository file. Tracked candidate templates bind an exact
 Android/Windows artifact set, source tuple, SBOM, provenance, release notes and
 known issues. Candidate 1 retains the rejected Windows SCM behavior as history;
 candidate 2 binds the fail-closed replacement and freshly rebuilt artifact set.
+Candidate 3 binds the later SPB/client correction and source-freeze build fixes.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
