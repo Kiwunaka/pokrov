@@ -45,13 +45,18 @@ gate; the sanitized follow-up record is retained under
 stable/latest pointer. The development target stays `PRE_CANDIDATE_LOCAL`
 independently of this immutable candidate snapshot.
 
-Candidate 3 has a reviewed source template binding the corrected SPB
-advertisement, client stale-variant recovery, exact production-signed Android
-artifacts, the owner-approved unsigned Windows direct-beta artifact, SBOM and
-provenance. Its exact APK passed upgrade/start/settings-persistence checks in
-LDPlayer, but the expired emulator entitlement blocked catalog and tunnel
-proof. The template is not a created or signed candidate until the manual
-signing workflow succeeds against its exact `main` commit.
+Candidate 3 was generated and signed from exact release-index commit
+`6a1afa95fe52da2d559ba7b1da88715cd0344bb2`. Its manifest SHA-256 is
+`a2752b6a3b95faacf13a68edb708c560966a0f5eb8727e109d7f1603fdc81090` and
+its detached signature SHA-256 is
+`926f0b4667a58ba9cc5ace5c4e6c3c8129d1ec3d4d449b3f0831a8c527cd7121`.
+The exact APK passed upgrade/start/settings-persistence checks in LDPlayer,
+while the expired emulator entitlement blocked catalog and tunnel proof. The
+exact unsigned Windows artifact passed the bounded private clean-host gate in
+run `33033294889`; sanitized evidence is retained under
+`candidate-evidence/1.2.0/`. Candidate 3 remains private,
+`promotion_authorized=false`, and is neither the public `v1.2.0` release nor a
+stable/latest pointer.
 
 Run the source check with:
 
