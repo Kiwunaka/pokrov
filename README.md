@@ -58,14 +58,17 @@ run `33033294889`; sanitized evidence is retained under
 `promotion_authorized=false`, and is neither the public `v1.2.0` release nor a
 stable/latest pointer.
 
-Candidate 4 is prepared only as a reviewed source template for replacement
-build `1.2.0+32`. It binds the AWG 3.1 default-off lab and direct-DoH lab client
-source, five production-signed Android artifacts, the owner-approved unsigned
-Windows installer, SBOM, provenance, release notes, known issues and the exact
-four-repository source tuple. The template does not create or sign a candidate,
-publish assets, change the public `1.1.6` pointer, or authorize promotion. Those
-claims remain false until the main-only signing workflow succeeds and its exact
-receipt is retained.
+Candidate 4 was generated and signed from exact release-index commit
+`6d2a7df2870dae4b0540f3a9e19ba044489bdb43`. Its manifest SHA-256 is
+`482a507fe1816c56a000ebae5232fabf9c863a61992430db2fa287099393765e` and
+its detached signature SHA-256 is
+`2995c68ec60d501a8c8726c6677fa93259eff52ef78047d81ab8a7d56e20f7d0`.
+Main-only signer run `33073596552` signed and revalidated all six exact build
+`1.2.0+32` artifact identities. The candidate binds the AWG 3.1 default-off lab,
+direct-DoH lab, five production-signed Android artifacts, the owner-approved
+unsigned Windows installer, SBOM, provenance, release notes and known issues.
+It remains an Actions artifact only with `promotion_authorized=false`: no tag,
+GitHub Release, public assets, stable pointer or promotion was created.
 
 Run the source check with:
 
