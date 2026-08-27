@@ -58,6 +58,15 @@ run `33033294889`; sanitized evidence is retained under
 `promotion_authorized=false`, and is neither the public `v1.2.0` release nor a
 stable/latest pointer.
 
+Candidate 4 is prepared only as a reviewed source template for replacement
+build `1.2.0+32`. It binds the AWG 3.1 default-off lab and direct-DoH lab client
+source, five production-signed Android artifacts, the owner-approved unsigned
+Windows installer, SBOM, provenance, release notes, known issues and the exact
+four-repository source tuple. The template does not create or sign a candidate,
+publish assets, change the public `1.1.6` pointer, or authorize promotion. Those
+claims remain false until the main-only signing workflow succeeds and its exact
+receipt is retained.
+
 Run the source check with:
 
 ```text
