@@ -70,6 +70,22 @@ unsigned Windows installer, SBOM, provenance, release notes and known issues.
 It remains an Actions artifact only with `promotion_authorized=false`: no tag,
 GitHub Release, public assets, stable pointer or promotion was created.
 
+Candidate 5 was generated and signed from exact release-index commit
+`1d1b7eec05f311aad3044249982ed6fa0f3ace0d`. Its manifest SHA-256 is
+`1f8d6ba056f66dc3f8ea76df16e42f5481fc17b111ea759f191eb4ad4af3c263`
+and its detached signature SHA-256 is
+`56ed2afe249491546d4e21f1c66490daa6ee376af9b94b53b7a7ea680cf3e874`.
+Main-only signer run `33190309331` signed and revalidated all six exact build
+`1.2.0+4046` artifact identities using key `pokrov-release-2026-01`; the public
+receipt SHA-256 is
+`d39ad982b14c55e9e395753f73a9c3d6570ac912e3d8a967a15aac5a0d05060b`.
+The candidate binds promoted platform/client source, the exact Core product
+source, production-signed Android APK/AAB files, the owner-approved unsigned
+Windows installer, strict-v2 handoff, SBOM, provenance, release notes and known
+issues. It remains an Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, stable
+pointer or promotion was created.
+
 Run the source check with:
 
 ```text
@@ -106,6 +122,10 @@ Android/Windows artifact set, source tuple, SBOM, provenance, release notes and
 known issues. Candidate 1 retains the rejected Windows SCM behavior as history;
 candidate 2 binds the fail-closed replacement and freshly rebuilt artifact set.
 Candidate 3 binds the later SPB/client correction and source-freeze build fixes.
+Candidate 4 adds the default-off AWG 3.1 and direct-DoH labs. Candidate 5 moves
+the replacement line to build `4046`, binds the promoted source tuple and a new
+six-file artifact set. None of these historical candidates authorizes
+promotion.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
