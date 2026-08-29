@@ -102,6 +102,17 @@ issues. It remains an Actions artifact only with `promotion_authorized=false`:
 no tag, GitHub Release, public assets, store submission, stable pointer or
 promotion was created.
 
+The reviewed Candidate 7 input binds platform
+`af259f377ec7a3cd757f0f43762154dd25e09f94`, client
+`b2497af7704d0aa6901541e175ce154b0eab05d7`, Core
+`a45d69e40ed7d892619a2b5c4592a527f630665e`, and the exact same six build
+`1.2.0+4046` artifact bytes. Its corrected full-product SBOM and provenance
+pass the offline fail-closed supply-chain verifier, including the exact Core
+AAR/DLL and all eight Windows runtime files. This tracked input is not yet a
+signed candidate: the main-only signer must bind it to the exact release-index
+commit and retain a public receipt. It does not create a tag, GitHub Release,
+public assets, store submission, stable pointer or promotion.
+
 Run the source check with:
 
 ```text
@@ -141,8 +152,9 @@ Candidate 3 binds the later SPB/client correction and source-freeze build fixes.
 Candidate 4 adds the default-off AWG 3.1 and direct-DoH labs. Candidate 5 moves
 the replacement line to build `4046` and retains the later rejected runtime
 history. Candidate 6 binds the resolver correction and current Smart-DNS
-source contract to a new six-file artifact set. None of these candidates
-authorizes promotion.
+source contract to a new six-file artifact set. Candidate 7 corrects the
+full-product supply-chain evidence and binds the same six bytes to the final
+platform verifier merge. None of these candidates authorizes promotion.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate

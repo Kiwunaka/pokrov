@@ -37,7 +37,7 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         self.assertEqual(summary["active_signing_keys"], 1)
         self.assertEqual(active_keys[0]["id"], "pokrov-release-2026-01")
         self.assertEqual(len(active_keys[0]["public_key"]), 32)
-        self.assertEqual(summary["candidate_templates"], 6)
+        self.assertEqual(summary["candidate_templates"], 7)
         self.assertEqual(
             summary["candidate_template_ids"],
             [
@@ -47,6 +47,7 @@ class ReleaseIndexSourceTest(unittest.TestCase):
                 "pokrov-1.2.0-candidate.4",
                 "pokrov-1.2.0-candidate.5",
                 "pokrov-1.2.0-candidate.6",
+                "pokrov-1.2.0-candidate.7",
             ],
         )
         self.assertEqual(summary["candidate_evidence"], 2)
