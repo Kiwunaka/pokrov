@@ -86,6 +86,22 @@ issues. It remains an Actions artifact only with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, stable
 pointer or promotion was created.
 
+Candidate 6 was generated and signed from exact release-index commit
+`8d09ae5e8ec0c8347bcd4e2659944bdf7c9c9db3`. Its manifest SHA-256 is
+`8aac2458f8c43c0ef2955719dcede44f495d60acf681bc804bd6bf9828ee9054`,
+its detached signature SHA-256 is
+`2307906a920fb9b4dcd4c0025bf7628972668905d13897c553ddf27a81592dfa`,
+and its public receipt SHA-256 is
+`85dd34504d876086aa8bfe3533ad4db964e4f0a9106f9085657dc08c2c7afcaa`.
+Main-only signer run `33239993242` signed and independently revalidated six
+exact build `1.2.0+4046` artifacts using key `pokrov-release-2026-01`.
+Candidate 6 binds the resolver-corrected Core, the current Smart-DNS source
+contract, production-signed Android APK/AAB files, the owner-approved unsigned
+Windows installer, strict-v2 handoff, SBOM, provenance, release notes and known
+issues. It remains an Actions artifact only with `promotion_authorized=false`:
+no tag, GitHub Release, public assets, store submission, stable pointer or
+promotion was created.
+
 Run the source check with:
 
 ```text
@@ -123,9 +139,10 @@ known issues. Candidate 1 retains the rejected Windows SCM behavior as history;
 candidate 2 binds the fail-closed replacement and freshly rebuilt artifact set.
 Candidate 3 binds the later SPB/client correction and source-freeze build fixes.
 Candidate 4 adds the default-off AWG 3.1 and direct-DoH labs. Candidate 5 moves
-the replacement line to build `4046`, binds the promoted source tuple and a new
-six-file artifact set. None of these historical candidates authorizes
-promotion.
+the replacement line to build `4046` and retains the later rejected runtime
+history. Candidate 6 binds the resolver correction and current Smart-DNS
+source contract to a new six-file artifact set. None of these candidates
+authorizes promotion.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
