@@ -121,6 +121,27 @@ AAR/DLL and all eight Windows runtime files. It remains an Actions artifact
 only with `promotion_authorized=false`: no tag, GitHub Release, public assets,
 store submission, stable pointer or promotion was created.
 
+Candidate 8 was generated and signed from exact release-index commit
+`b242e0a3060b04f9b71641a0524bf251a75ce2a8`. Its manifest SHA-256 is
+`f0006cec90c84e401e9920d9098102c7f50ab5ace5242e0d7683c3df709a6fbc`,
+its detached signature SHA-256 is
+`5fcae0675ea45e79baf495859fd170661f5d6dd3a8535275acd4d62680d324f6`,
+and its public receipt SHA-256 is
+`4109bb3417b32a780604300055f5308acf7dc810e7ea9c547075e1da41cc21fc`.
+Main-only signer run `33267152760` signed and independently revalidated all
+six rebuilt `1.2.0+4046` artifacts using key `pokrov-release-2026-01`.
+Candidate 8 binds platform `241a83b4dca00799b39696a4ae0c3c97e087ec39`,
+client `3459438f02bd774e722b1b858e7f7f16d57a9f5c`, and unchanged Core
+`a45d69e40ed7d892619a2b5c4592a527f630665e`. Its Android notification truth
+correction and owned AWG mobile-safe metadata/MTU correction are represented by
+fresh Android and Windows bytes; the offline verifier passes all six artifacts
+and all eight Windows runtime files. Public release-index Actions completed all
+real source-contract and signer steps. Separate private platform/client hosted
+jobs remain blocked by their account billing state and are not relabelled as
+passes. Candidate 8 remains an Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer or promotion was created.
+
 Run the source check with:
 
 ```text
@@ -162,7 +183,9 @@ the replacement line to build `4046` and retains the later rejected runtime
 history. Candidate 6 binds the resolver correction and current Smart-DNS
 source contract to a new six-file artifact set. Candidate 7 corrects the
 full-product supply-chain evidence and binds the same six bytes to the final
-platform verifier merge. None of these candidates authorizes promotion.
+platform verifier merge. Candidate 8 rebuilds the six-file set for the Android
+notification-truth and owned AWG mobile-safe corrections and binds it to the
+new exact source tuple. None of these candidates authorizes promotion.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
