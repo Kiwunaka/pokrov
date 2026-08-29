@@ -102,16 +102,24 @@ issues. It remains an Actions artifact only with `promotion_authorized=false`:
 no tag, GitHub Release, public assets, store submission, stable pointer or
 promotion was created.
 
-The reviewed Candidate 7 input binds platform
+Candidate 7 was generated and signed from exact release-index commit
+`f6917c8264015aee72fe51126943b08191e85b07`. Its manifest SHA-256 is
+`fb1d7049deaf3047456377e675c45a2177c76c51f8792703886ca2bcca5490ce`,
+its detached signature SHA-256 is
+`2b20ed7881c36f72b0777aa8c2a571e192895df15eb598165d5e93ae68418abf`,
+and its public receipt SHA-256 is
+`ff93d33bf0ef4b0e1b036ee1be5b83f769791295d0e1cfcde0a1f854b2799b04`.
+Main-only signer run `33256988566` signed and independently revalidated all
+six exact build `1.2.0+4046` artifacts using key
+`pokrov-release-2026-01`. Candidate 7 binds platform
 `af259f377ec7a3cd757f0f43762154dd25e09f94`, client
 `b2497af7704d0aa6901541e175ce154b0eab05d7`, Core
 `a45d69e40ed7d892619a2b5c4592a527f630665e`, and the exact same six build
 `1.2.0+4046` artifact bytes. Its corrected full-product SBOM and provenance
 pass the offline fail-closed supply-chain verifier, including the exact Core
-AAR/DLL and all eight Windows runtime files. This tracked input is not yet a
-signed candidate: the main-only signer must bind it to the exact release-index
-commit and retain a public receipt. It does not create a tag, GitHub Release,
-public assets, store submission, stable pointer or promotion.
+AAR/DLL and all eight Windows runtime files. It remains an Actions artifact
+only with `promotion_authorized=false`: no tag, GitHub Release, public assets,
+store submission, stable pointer or promotion was created.
 
 Run the source check with:
 
