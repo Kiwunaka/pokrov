@@ -222,6 +222,31 @@ Actions completed real steps with `PASS`. Candidate 12 remains a 14-day Actions
 artifact only with `promotion_authorized=false`: no tag, GitHub Release,
 public assets, store submission, stable pointer or promotion was created.
 
+Candidate 13 was generated and signed from exact release-index commit
+`440f3be1a5f3ae5c6c78c62036858884e5bc3c94`. Its manifest SHA-256 is
+`b8a10cf8fbc1683cc9a1540edf74f29fd417f422bc3d2be97f4deae85075190c`,
+its detached signature SHA-256 is
+`ede7844c2b2a94b0d89b7aa72b75c5ff3eec5e5662ec907c0b181ff08d5c0e4d`,
+and its public receipt SHA-256 is
+`fc3b1319812df374c27e34c9698af8bcf9a67b66ada95bb4e1be1906d82bb295`.
+Main-only signer run `33318660441` signed and independently revalidated all six
+freshly rebuilt exact `1.2.0+4049` artifacts using key
+`pokrov-release-2026-01`. Candidate 13 binds platform
+`7d983c0ab52e9c01f94da8916a6bca6a0039be8d`, client
+`ce2581dd16d276d20eace7a56f0337c4b9319168`, and Core artifact source
+`cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 12 after
+the Android Core event-fence restart failure. The exact production-signed
+x86_64 APK then passed the bounded LDPlayer AWG 3.1 → AWG2 → default warm
+lifecycle in one process with green tunnel, DNS and VPN-egress readback; the
+sanitized local runtime summary SHA-256 is
+`22dbd83bb0267ecd55bfa8b15284d149f5465270edf11bd1f0f9122e21ddb195`.
+Physical Android and exact Windows clean-host gates remain manual. Offline
+supply-chain validation passed all six artifacts and all eight Windows runtime
+files; the final public source-contract and signer Actions completed real steps
+with `PASS`. Candidate 13 remains a 14-day Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer or promotion was created.
+
 Run the source check with:
 
 ```text
@@ -274,6 +299,9 @@ of these candidates authorizes promotion. Candidate 11 is retained as the
 rejected pre-lab replacement attempt; candidate 12 carries the Smart Connect
 lab isolation fix, build `4048`, fresh exact bytes, and current-safe Windows
 packaging claims without promoting xHTTP or Hysteria2 from lab status.
+Candidate 13 carries the Android Core event-fence restart fix, build `4049`,
+fresh exact bytes and the bounded same-process LDPlayer AWG 3.1 → AWG2 →
+default proof. It still does not promote xHTTP or Hysteria2 from lab status.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
