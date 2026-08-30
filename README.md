@@ -162,6 +162,26 @@ Actions both completed with real `PASS`. Candidate 9 remains an Actions
 artifact only with `promotion_authorized=false`: no tag, GitHub Release,
 public assets, store submission, stable pointer or promotion was created.
 
+Candidate 10 was generated and signed from exact release-index commit
+`fc00b26d402b167260e495eb33397115bef1c317`. Its manifest SHA-256 is
+`0711546b0da4b811fba42e1ad543797494e4104bd95251c9e8e8011ac04dff83`,
+its detached signature SHA-256 is
+`6f96f8932e388f221cf7d5e10dc1680fbcbb62f87efe00410439eb9f62e42799`,
+and its public receipt SHA-256 is
+`094a42f3c0d9be3957b3065344e5bfce4880c2899833fed3b4d211d8d453a89c`.
+Main-only signer run `33292070137` signed and independently revalidated all six
+exact `1.2.0+4046` artifacts using key `pokrov-release-2026-01`. Candidate 10
+binds platform `209b8f40c36d95f2bbc67caa52a41ecb09f46720`, unchanged client
+`3459438f02bd774e722b1b858e7f7f16d57a9f5c`, and unchanged Core
+`a45d69e40ed7d892619a2b5c4592a527f630665e`. The client artifacts are
+byte-identical to candidate 9; regenerated full-product SBOM, provenance, and
+strict-v2 handoff bind them to the platform-only RU-origin connected-family and
+manifest-driven HTTPS threshold correction. Public source-contract and signer
+Actions both completed all real steps with `PASS`. Candidate 10 remains an
+Actions artifact only with `promotion_authorized=false`: no tag, GitHub
+Release, public assets, store submission, stable pointer or promotion was
+created.
+
 Run the source check with:
 
 ```text
@@ -207,8 +227,10 @@ platform verifier merge. Candidate 8 rebuilds the six-file set for the Android
 notification-truth and owned AWG mobile-safe corrections and binds it to the
 new exact source tuple. Candidate 9 retains those exact six bytes while binding
 the platform-only RU-origin HMAC permission-contract correction through a new
-SBOM, provenance, and strict-v2 handoff. None of these candidates authorizes
-promotion.
+SBOM, provenance, and strict-v2 handoff. Candidate 10 again retains the exact
+six bytes while binding the corrected redacted connected-family and
+manifest-driven HTTPS threshold behavior for the RU-origin probe plane. None
+of these candidates authorizes promotion.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
