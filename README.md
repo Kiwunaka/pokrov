@@ -182,6 +182,26 @@ Actions artifact only with `promotion_authorized=false`: no tag, GitHub
 Release, public assets, store submission, stable pointer or promotion was
 created.
 
+Candidate 11 was generated and signed from exact release-index commit
+`8c314a10893bb6260f59f171ecab296103c0e0c1`. Its manifest SHA-256 is
+`22ea88cb7679510d51af6b35a7d31e65ec654fb17806ddf9ebd71c7da350a29f`,
+its detached signature SHA-256 is
+`c1a4c3cea72db5dc2089fb3259970a1665bc2dd49bc0a24093e728cf8c1e912c`,
+and its public receipt SHA-256 is
+`f78e61b05ce0579f5a978b404ab3fe4992df31e3562f46d5788ee1e9aec015aa`.
+Main-only signer run `33306436427` signed and independently revalidated all six
+freshly rebuilt exact `1.2.0+4047` artifacts using key
+`pokrov-release-2026-01`. Candidate 11 binds platform
+`01cf5de682c01bffbead7703db901450ca7fb1fb`, client
+`348de306fc1f2243d022157b54fa7f09ffd2840b`, and Core artifact source
+`cd8f0f4169d570d693992a959d81d17c2c44884d`. The Core change removes raw
+legacy settings/error logging while retaining the existing ABI and AWG lab
+lifecycle. Offline supply-chain validation passed all six artifacts and all
+eight Windows runtime files; the public source-contract and signer Actions
+also completed real steps with `PASS`. Candidate 11 remains a 14-day Actions
+artifact only with `promotion_authorized=false`: no tag, GitHub Release,
+public assets, store submission, stable pointer or promotion was created.
+
 Run the source check with:
 
 ```text
