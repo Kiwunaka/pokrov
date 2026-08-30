@@ -45,6 +45,7 @@ class ReleaseIndexSourceTest(unittest.TestCase):
                 "pokrov-1.2.0-candidate.10",
                 "pokrov-1.2.0-candidate.11",
                 "pokrov-1.2.0-candidate.12",
+                "pokrov-1.2.0-candidate.13",
                 "pokrov-1.2.0-candidate.2",
                 "pokrov-1.2.0-candidate.3",
                 "pokrov-1.2.0-candidate.4",
