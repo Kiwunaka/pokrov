@@ -202,6 +202,26 @@ also completed real steps with `PASS`. Candidate 11 remains a 14-day Actions
 artifact only with `promotion_authorized=false`: no tag, GitHub Release,
 public assets, store submission, stable pointer or promotion was created.
 
+Candidate 12 was generated and signed from exact release-index commit
+`13cb67dfb56393e26ea75744c9379e19d96df5de`. Its manifest SHA-256 is
+`22ba8bb11b198ade9c2a254eaf49d46324aea6ca0b952498d994e03fcd41ab98`,
+its detached signature SHA-256 is
+`c2ad2655ef7e6996a26bbfb12a990f6e8f77518749491d149603542e37131b32`,
+and its public receipt SHA-256 is
+`1144f7ac86c52ea36778d4879c8e7059307e1bcb5a01fcdd0d00e32ecb837444`.
+Main-only signer run `33313761896` signed and independently revalidated all six
+freshly rebuilt exact `1.2.0+4048` artifacts using key
+`pokrov-release-2026-01`. Candidate 12 binds platform
+`9e873eb496f13edc098e27f1a233f227d0bf48dc`, client
+`5b1aa02b79212f7b55e76e5086a41a84efb36195`, and Core artifact source
+`cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 11 after
+the AWG lab Smart Connect exclusion failure and corrects stale Windows manifest
+claims before freeze. Offline supply-chain validation passed all six artifacts
+and all eight Windows runtime files; the public source-contract and signer
+Actions completed real steps with `PASS`. Candidate 12 remains a 14-day Actions
+artifact only with `promotion_authorized=false`: no tag, GitHub Release,
+public assets, store submission, stable pointer or promotion was created.
+
 Run the source check with:
 
 ```text
@@ -250,7 +270,10 @@ the platform-only RU-origin HMAC permission-contract correction through a new
 SBOM, provenance, and strict-v2 handoff. Candidate 10 again retains the exact
 six bytes while binding the corrected redacted connected-family and
 manifest-driven HTTPS threshold behavior for the RU-origin probe plane. None
-of these candidates authorizes promotion.
+of these candidates authorizes promotion. Candidate 11 is retained as the
+rejected pre-lab replacement attempt; candidate 12 carries the Smart Connect
+lab isolation fix, build `4048`, fresh exact bytes, and current-safe Windows
+packaging claims without promoting xHTTP or Hysteria2 from lab status.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
