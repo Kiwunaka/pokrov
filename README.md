@@ -142,6 +142,26 @@ passes. Candidate 8 remains an Actions artifact only with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer or promotion was created.
 
+Candidate 9 was generated and signed from exact release-index commit
+`26c151093a2b53da5a59befc2532d5c9d68bc311`. Its manifest SHA-256 is
+`aebfd0f4481dd6edacf61654ca6ba9ae02de38433f0bffcdbdafec7ddd9bc8b7`,
+its detached signature SHA-256 is
+`0ead7eec1e884a6710cca65621da0113c963c7eaa528dc1665111b911e32c2e9`,
+and its public receipt SHA-256 is
+`6ad892067d6dbc81c93718168617059ab63510160461f88f08523a4e02a98125`.
+Main-only signer run `33290668318` signed and independently revalidated all six
+exact `1.2.0+4046` artifacts using key `pokrov-release-2026-01`. Candidate 9
+binds platform `84687875916bbb35c0e28e0c2a8c7ea276753f31`, unchanged client
+`3459438f02bd774e722b1b858e7f7f16d57a9f5c`, and unchanged Core
+`a45d69e40ed7d892619a2b5c4592a527f630665e`. The client artifacts are
+byte-identical to candidate 8; regenerated full-product SBOM, provenance, and
+strict-v2 handoff bind them to the platform-only RU-origin probe HMAC
+permission-contract correction. The offline verifier passes all six artifacts
+and all eight Windows runtime files. Release-index source-contract and signer
+Actions both completed with real `PASS`. Candidate 9 remains an Actions
+artifact only with `promotion_authorized=false`: no tag, GitHub Release,
+public assets, store submission, stable pointer or promotion was created.
+
 Run the source check with:
 
 ```text
@@ -185,7 +205,10 @@ source contract to a new six-file artifact set. Candidate 7 corrects the
 full-product supply-chain evidence and binds the same six bytes to the final
 platform verifier merge. Candidate 8 rebuilds the six-file set for the Android
 notification-truth and owned AWG mobile-safe corrections and binds it to the
-new exact source tuple. None of these candidates authorizes promotion.
+new exact source tuple. Candidate 9 retains those exact six bytes while binding
+the platform-only RU-origin HMAC permission-contract correction through a new
+SBOM, provenance, and strict-v2 handoff. None of these candidates authorizes
+promotion.
 Tracking a reviewed input does not create, sign or publish a candidate. The
 manual workflow must still bind the zero-commit placeholder to exact `main`,
 sign the canonical bytes and retain the artifact receipt before candidate
