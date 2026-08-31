@@ -271,6 +271,30 @@ files; the public source-contract and signer Actions completed real steps with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer or promotion was created.
 
+Candidate 15 was generated and signed from exact release-index commit
+`a86491695ce3e6809818c7604f94a68fda9ad759`. Its manifest SHA-256 is
+`d168bafc4d5cb4178196546ea5aa4d85c2a063f1fa14509a25a6ec7a8d162529`,
+its detached signature SHA-256 is
+`b5c0f4c51bb61a3e15b24ef4e8a0337fe0bfd8cd4fb7f2fff30628a9272ce295`,
+and its public receipt SHA-256 is
+`72451a7ab48b317774bf8e070344f3ed4999628563e97703d6b7ac900f60350d`.
+Main-only signer run `33385577377` signed and independently revalidated all six
+exact `1.2.0+4049` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:b29cf15ecdf64555f5c4942ee4bdd9c70da53a598c444c7ff749ce205ba2868e`.
+Candidate 15 binds platform
+`48669df4cfc466af6957ebfff7daf9eb5fb3cd66`, unchanged client
+`75ba7e721cfee486f7189edd51de97aba2746722`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 14
+after the platform managed-profile bounded-read correction. The six client
+artifacts are byte-identical to candidate 14; regenerated CycloneDX SBOM,
+SLSA provenance and strict-v2 handoff bind them to the successor source tuple.
+Offline supply-chain validation passed all six artifacts and all eight Windows
+runtime files; the public source-contract and signer Actions completed all real
+steps with `PASS`. Candidate 15 remains a 14-day Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer or promotion was created.
+
 Run the source check with:
 
 ```text
