@@ -369,6 +369,33 @@ remains a 14-day Actions artifact only with `promotion_authorized=false`: no
 tag, GitHub Release, public assets, store submission, stable pointer or
 promotion was created.
 
+Candidate 19 was generated and signed from exact release-index commit
+`43fc20fd25342f314554a89ef75e1122f00aee01`. Its manifest SHA-256 is
+`bb78970700d8dc51b6b31caabb76a9b4ca6c94da2f8eef82f1c99ab61b5e6a87`,
+its detached signature SHA-256 is
+`1d39b7bb7b20481bd165348abc1321ccd9ef4131021505c4054a8c22f6c24e38`,
+and its public receipt SHA-256 is
+`12b2de4a89eb2fa48e359bc740b39c924941a725d97009387b6343a047094f84`.
+Main-only signer run `33489470612` signed and independently revalidated all six
+exact `1.2.0+4049` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:f57e5949b25570b2179d75c5bc2ef14049bcdb6aebdf85f307d591a110f037ea`.
+Candidate 19 binds platform
+`d6898e63c5c9ab7dd267b9d5150b54196f99d967`, client
+`10f5516648fd40d6c94eb7a7ca0d05be161d393c`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It rejects and supersedes
+candidate 18 after exact ordinary-user testing exposed that the UI tried to
+read the `LocalSystem` service process token and then closed the authenticated
+pipe. Candidate 19 binds the server PID to the protected SCM service record
+without weakening pipe ACLs or server-side caller authorization. Offline
+supply-chain validation passed all six artifacts and all 11 Windows runtime
+files. Exact Windows 11 clean-app-state installation, non-elevated UI/service
+IPC, clean uninstall, and public-1.1.6 migration pass; connected Windows and
+physical Android Wi-Fi/Beeline gates remain open. Candidate 19 remains a
+14-day Actions artifact only with `promotion_authorized=false`: no tag, GitHub
+Release, public assets, store submission, stable pointer, or promotion was
+created.
+
 Run the source check with:
 
 ```text
