@@ -396,6 +396,37 @@ physical Android Wi-Fi/Beeline gates remain open. Candidate 19 remains a
 Release, public assets, store submission, stable pointer, or promotion was
 created.
 
+Candidate 20 was generated and signed from exact release-index commit
+`61ad0b0e0780775b8f95f1a567e94d75d198a483`. Its manifest SHA-256 is
+`046d331274da76ba524f824debb17c4abc080657456c41099246589cc3c1770a`,
+its detached signature SHA-256 is
+`f5e81d310fa18b464421afe4c0da010e3b9c112c9affba64e7d1631b4f6890ea`,
+and its public receipt SHA-256 is
+`47429c2cb3b77520257bb63e7a41652d3744e0a4f710589bf4c20eec289b9479`.
+Main-only signer run `33509003189` signed and independently revalidated all six
+exact `1.2.0+4049` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:8c38f1e92eb3996e4c7b7a01f088e073e8003e79f90ed49ebad1e1ecb2d39fdc`.
+An earlier dispatch `33508836174` failed closed on a template SHA-256 mismatch
+and created no signed artifact.
+
+Candidate 20 binds platform
+`d6898e63c5c9ab7dd267b9d5150b54196f99d967`, client
+`8ab9815ab98f111140c0c8ce4e289555652d56e8`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It rejects and supersedes
+candidate 19 after exact connected Windows testing exposed unresolved absolute
+AppData paths for local binary rule sets. Candidate 20 transfers a bounded
+bundle over the existing authenticated IPC channel and materializes four rule
+sets in the service-owned protected A/B profile slot. Offline supply-chain
+validation passed all six artifacts and all 11 Windows runtime files. Exact
+Windows 11 machine install, ordinary UI, default connect, TUN, DNS,
+authenticated egress, disconnect rollback, clean uninstall, and public-1.1.6
+migration pass. Physical Android Wi-Fi/Beeline, Windows 10, Windows recovery,
+and non-default protocol gates remain open. Candidate 20 remains a 14-day
+Actions artifact only with `promotion_authorized=false`: no tag, GitHub
+Release, public assets, store submission, stable pointer, or promotion was
+created.
+
 Run the source check with:
 
 ```text
