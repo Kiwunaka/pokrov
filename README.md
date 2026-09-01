@@ -319,6 +319,31 @@ steps with `PASS`. Candidate 16 remains a 14-day Actions artifact only with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer or promotion was created.
 
+Candidate 17 was generated and signed from exact release-index commit
+`2df538cb4e6e64f291a93ae4cdcebc85ce93fb17`. Its manifest SHA-256 is
+`bea4774f48646c672e1ca96b2e48ef9f559b3ec800e7bd7bc6f1a8ee793fdb1e`,
+its detached signature SHA-256 is
+`e58419f3c4d252db5d2a3cce8cbcc88e5868c201cef8e2df55bcf39991885717`,
+and its public receipt SHA-256 is
+`bec4c0ccb45b363ca4d2f1baaa872bb7f7fae069b5d8f5ad80270da8556b0ba1`.
+Main-only signer run `33463318296` signed and independently revalidated all six
+exact `1.2.0+4049` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:08cd43c54b3d82a92ba64725590da4925464ac1327930d4b759a18c36de97f18`.
+Candidate 17 binds platform
+`d6898e63c5c9ab7dd267b9d5150b54196f99d967`, client
+`977c6edd21d4746d5b1b8770d031734df46ad108`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 16
+after the dual-delivery-endpoint DE topology correction and exact-ref hosted
+replay support landed. The six client artifacts are byte-identical to candidate
+16; regenerated CycloneDX SBOM, SLSA provenance and strict-v2 handoff bind them
+to the successor source tuple. Offline supply-chain validation passed all six
+artifacts and all eight Windows runtime files; the public source-contract and
+signer Actions completed all real steps with `PASS`. Candidate 17 remains a
+14-day Actions artifact only with `promotion_authorized=false`: no tag, GitHub
+Release, public assets, store submission, stable pointer or promotion was
+created.
+
 Run the source check with:
 
 ```text
