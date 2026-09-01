@@ -344,6 +344,31 @@ signer Actions completed all real steps with `PASS`. Candidate 17 remains a
 Release, public assets, store submission, stable pointer or promotion was
 created.
 
+Candidate 18 was generated and signed from exact release-index commit
+`5dc25bdde2ce146c65c37c08bf96afebe722f759`. Its manifest SHA-256 is
+`d686238265e19b7a63759b735e18a49d8910f1885098dc923c5f1c51130f9a56`,
+its detached signature SHA-256 is
+`a5584da629e4562b2ec6d79824f5d121e691f8b7e3ce0a83475f6a00464b6324`,
+and its public receipt SHA-256 is
+`42a4c7381dc8dab6cdb226476f0ab316222bd96f16994d75e10f22f0436fe83d`.
+Main-only signer run `33475398520` signed and independently revalidated all six
+exact `1.2.0+4049` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:b997c61e2f6adbc958a34bed1f3b068f4ae7add8070beb5ed0a4e511d7b5fcc8`.
+Candidate 18 binds platform
+`d6898e63c5c9ab7dd267b9d5150b54196f99d967`, client
+`820ca1016bdfef0f44a1d217e3804adb9b365ca5`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 17
+after the Windows setup added the three required Microsoft VC143 app-local
+runtime DLLs, fail-closed service installation, and guarded migration from the
+public per-user 1.1.6 install. Offline supply-chain validation passed all six
+artifacts and all 11 Windows runtime files. Exact Windows 11 clean-app-state
+install/service/IPC/restart/uninstall and public-1.1.6 migration evidence passed;
+physical Android Wi-Fi and Beeline network gates remain manual. Candidate 18
+remains a 14-day Actions artifact only with `promotion_authorized=false`: no
+tag, GitHub Release, public assets, store submission, stable pointer or
+promotion was created.
+
 Run the source check with:
 
 ```text
