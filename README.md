@@ -457,6 +457,35 @@ Gate F checks remain open. Candidate 21 remains a 14-day Actions artifact only
 with `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer, or promotion was created.
 
+Candidate 22 was generated and signed from exact release-index commit
+`d45b5035e135130cbdec3968e712201e5bc78230`. Its manifest SHA-256 is
+`81c56e9fcf7478c50d5881538d26fd72459f05a04d9cce403ec99d8ecdcc7d59`,
+its detached signature SHA-256 is
+`b230a4423064f5b45813fec6eb88a956b820cb6603ad2986b641f2bdd4a8a387`,
+and its signer receipt SHA-256 is
+`6512351934514fd63347ddd7f40e83c5ab56148a8e5e1eb899ac22ed12812124`.
+Main-only signer run `33656388958` signed and independently revalidated all six
+exact `1.2.0+4051` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:c41c82689af24facab3e4f753c5eed7c72ab2ea358ac66df4aff905dae2db6ed`.
+
+Candidate 22 binds platform
+`d16087d5da509e17163bdd7293bec5711aa7eedc`, client
+`0aad6bbb3a8baf9bd9e2436ed9e57f7c6fbbafed`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 21
+after isolating rejected or interrupted Windows pipe sessions from the service
+accept loop. Offline supply-chain validation passed all six artifacts and all
+11 Windows runtime files. Exact Windows 11 upgrade from build 4050 to 4051,
+ordinary-user UI, rejected pre-hello continuity, default Germany TUN/route/DNS
+and authenticated DE egress pass. A fresh forced service termination changed
+the process id, completed startup rollback to a clean journal, then the
+ordinary UI restaged the profile, reconnected and restored the exact RU
+route/DNS baseline after disconnect. Physical Android Wi-Fi/Beeline, Windows
+10, remaining protocol/lifecycle, provider, Operator, legal and final Gate F
+checks remain open. Candidate 22 remains a 14-day Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer, or promotion was created.
+
 Run the source check with:
 
 ```text
