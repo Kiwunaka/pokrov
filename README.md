@@ -486,6 +486,34 @@ checks remain open. Candidate 22 remains a 14-day Actions artifact only with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer, or promotion was created.
 
+Candidate 23 was generated and signed from exact release-index commit
+`95f9f03ae80eb291d7138df1b3996054f9a05336`. Its manifest SHA-256 is
+`5073c201541be70be124ab305203f830fd3c531725ad4f6632115e2e738301a1`,
+its detached signature SHA-256 is
+`92027334651409cdf5e8efe7f53e0992bff54bffb2381ae382263e00b6d78863`,
+and its signer receipt SHA-256 is
+`d11e24ac84846231a52f42a2dc0f64576d3b7a04a8e005794210457c35828ba6`.
+Main-only signer run `33690078543` signed and independently revalidated all six
+exact `1.2.0+4052` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:2ca86de6dfcd006a067f90dbae068d365ae18aa3df081c989a5eecd7b48bc3c8`.
+
+Candidate 23 binds platform
+`5ba4dba3db0f900466d2f36d84d981a0a9c9fe68`, client
+`df9ed85bb0e7fd7bf1e1c43d033825212c2f6354`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 22
+with corrected Windows connected-uninstall process, tunnel, service, and file
+cleanup ordering. Offline supply-chain validation passed all six artifacts and
+all 11 Windows runtime files; bounded artifact and installed-payload scans found
+no definite secret material, and native Windows CTest passed `7/7`. Exact
+Windows 11 fresh install, `11/11` installed-file identity, running service, and
+idle zero-tunnel state pass. The exact connected-uninstall replay, physical
+Android Wi-Fi/Beeline, Windows 10, remaining protocol/lifecycle, provider,
+Operator, legal, and final Gate F checks remain open. Candidate 23 remains a
+14-day Actions artifact only with `promotion_authorized=false`: no tag, GitHub
+Release, public assets, store submission, stable pointer, or promotion was
+created.
+
 Run the source check with:
 
 ```text
