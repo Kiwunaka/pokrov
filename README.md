@@ -427,6 +427,36 @@ Actions artifact only with `promotion_authorized=false`: no tag, GitHub
 Release, public assets, store submission, stable pointer, or promotion was
 created.
 
+Candidate 21 was generated and signed from exact release-index commit
+`cae911e506d95eb72c1364b847992e30cbf9baf9`. Its manifest SHA-256 is
+`ce0b8586d4d9b5b625bbcd2c93b03fd783f89b4958a7fd79e58ef65b52c3dc6`,
+its detached signature SHA-256 is
+`ef474e6e1e147093b8b15c3cdc29bd35b5779249854a63ef7d6535d2588c7a58`,
+and its signer receipt SHA-256 is
+`aaa027cc5d71fd567c6f3c0b8a9e3b0e965a67760fd02d1769eb3d54062926f8`.
+Main-only signer run `33586752995` signed and independently revalidated all six
+exact `1.2.0+4050` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:9bd2ac5e7e69722c143ec1a50fc7e24564396f6fec647f21a6a2a84188823568`.
+
+Candidate 21 binds platform
+`e2608130e85d9a0f8fa4b920f46cf3d7679332c3`, client
+`1e164586d741484b5ae8fb2ee267ef5dd813cadb`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It rejects and supersedes
+candidate 20 after a forced Windows service termination left the durable
+recovery journal at `committed` after SCM restart. Candidate 21 resumes that
+recovery deterministically on service startup. Offline supply-chain validation
+passed all six artifacts and all 11 Windows runtime files. Exact Windows 11
+upgrade from the retained committed state, startup recovery, ordinary UI,
+default connect, TUN, route/DNS change, authenticated DE egress and exact
+disconnect restoration pass. A fresh in-place forced termination of the
+already installed candidate 21 service is `NOT_RUN` because UAC was cancelled
+before service termination. Physical Android Wi-Fi/Beeline, Windows 10,
+non-default protocol, broader leak/lifecycle, payment, operator, legal and final
+Gate F checks remain open. Candidate 21 remains a 14-day Actions artifact only
+with `promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer, or promotion was created.
+
 Run the source check with:
 
 ```text
