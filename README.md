@@ -662,16 +662,29 @@ Gate F checks also remain open. Candidate 31 remains a 14-day Actions artifact
 only with `promotion_authorized=false`: no tag, GitHub Release, public assets,
 store submission, stable pointer, production deploy, or promotion was created.
 
-Candidate 32 is the next private signing input for exact platform
+Candidate 32 was generated and signed from exact release-index commit
+`5d11fd6821a5ebfa42163f461332125143c553c3`. Its manifest SHA-256 is
+`b15938e1bef2b4cafb634eea81039163e2b15a446cda5bbd32d9894cbe2da449`,
+its detached signature SHA-256 is
+`e63d8ee39c15185afc9e600efe66a1a081b0fafc50343fd898114dfcb8bafcf4`,
+and its signer receipt SHA-256 is
+`7bfaf81f26a2030e01db534732723fe726251457f4d0f7ebc6d7d92018375a42`.
+Main-only signer run `33819350778` signed and independently revalidated all
+six exact `1.2.0+4053` artifact identities using key
+`pokrov-release-2026-01`; the retained private Actions artifact digest is
+`sha256:fc4b30a35ae98418392e245867ca1d269fb4cc08359ff7835f0f4bf0fd8ccb13`.
+
+Candidate 32 binds exact platform
 `d0dd37c1003198ba08cffc49a040a77e21621a86`, client
-`2d6adfcebc37f2109ef339276be6a1569cb7aa1e`, and unchanged Core artifact
-source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It binds a new six-file
-artifact set, candidate-bound SBOM/provenance/handoff, the production Android
-certificate evidence, and the owner-approved unsigned Windows direct-beta
-exception. Its exact device/runtime matrices remain open. Committing this
-input authorizes neither deployment nor public publication; signer output is
-retained as a private 14-day Actions artifact with
-`promotion_authorized=false`.
+`2d6adfcebc37f2109ef339276be6a1569cb7aa1e`, unchanged Core artifact source
+`cd8f0f4169d570d693992a959d81d17c2c44884d`, and canonical artifact-set
+SHA-256
+`1392133caa1cb52f59c058a918ba5006d6aefded048fc0927052e4ff51575fb0`.
+Its strict supply validation passed for `6/6` application artifacts and
+`11/11` Windows runtime files. Exact device/runtime matrices remain open.
+Candidate 32 remains a private 14-day Actions artifact only with
+`promotion_authorized=false`: no deployment, GitHub Release, public assets,
+store submission, stable pointer, or promotion was created.
 
 Run the source check with:
 
