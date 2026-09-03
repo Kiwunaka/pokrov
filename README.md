@@ -662,6 +662,17 @@ Gate F checks also remain open. Candidate 31 remains a 14-day Actions artifact
 only with `promotion_authorized=false`: no tag, GitHub Release, public assets,
 store submission, stable pointer, production deploy, or promotion was created.
 
+Candidate 32 is the next private signing input for exact platform
+`d0dd37c1003198ba08cffc49a040a77e21621a86`, client
+`2d6adfcebc37f2109ef339276be6a1569cb7aa1e`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It binds a new six-file
+artifact set, candidate-bound SBOM/provenance/handoff, the production Android
+certificate evidence, and the owner-approved unsigned Windows direct-beta
+exception. Its exact device/runtime matrices remain open. Committing this
+input authorizes neither deployment nor public publication; signer output is
+retained as a private 14-day Actions artifact with
+`promotion_authorized=false`.
+
 Run the source check with:
 
 ```text
