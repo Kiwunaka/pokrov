@@ -514,6 +514,34 @@ Operator, legal, and final Gate F checks remain open. Candidate 23 remains a
 Release, public assets, store submission, stable pointer, or promotion was
 created.
 
+Candidate 24 was generated and signed from exact release-index commit
+`a2fb1067adc4f2881299b45929a0d46736f74fff`. Its manifest SHA-256 is
+`bdd51f2c428298e3178fd94d9befaf79aa442445a384f52882995ffd5d9ddeed`,
+its detached signature SHA-256 is
+`ef47e339cafe23bd994844e70fe8263902a0d62f03312a35b10536913e7ac0bc`,
+and its signer receipt SHA-256 is
+`1ff20e15adda261dff182c1166a276270a05721f3770f5cc4df1d77b61153343`.
+Main-only signer run `33698144521` signed and independently revalidated all six
+exact `1.2.0+4053` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:09d407e22916f347c4e466ef098966c8f21a5aeb1cadd5c30e9741938f5e6656`.
+
+Candidate 24 binds platform
+`06b932b48ffcb92c8ec024b8892aaa9c36359673`, client
+`54259b0f84e16c58e2d1f5f04b369af4fd0834b2`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 23
+after the confirmed Windows named-pipe startup contention failure. The client
+adds bounded connection retries and a 32-client contention regression test.
+Full client, Android, Linux, Windows and Gradle tests passed; Debug native
+Windows CTest passed `8/8`. Offline supply-chain validation passed all six
+artifacts and all 11 Windows runtime files, and bounded scans found no definite
+secret material. Exact candidate 24 Windows VM install, physical Android
+Wi-Fi/Beeline, Windows 10, remaining protocol/lifecycle, provider, Operator,
+legal, and final Gate F checks remain open. Candidate 24 remains a 14-day
+Actions artifact only with `promotion_authorized=false`: no tag, GitHub
+Release, public assets, store submission, stable pointer, or promotion was
+created.
+
 Run the source check with:
 
 ```text
