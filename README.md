@@ -542,6 +542,35 @@ Actions artifact only with `promotion_authorized=false`: no tag, GitHub
 Release, public assets, store submission, stable pointer, or promotion was
 created.
 
+Candidate 25 was generated and signed from exact release-index commit
+`18d9cb4c5541481c5e60713376904f962ec19a7c`. Its manifest SHA-256 is
+`7161bae715d590fac0623561d147e4d9ee069da14a5e3645001cc4c39aa329b6`,
+its detached signature SHA-256 is
+`f83cf5acbfa8aa55a45a73f03a2f4e829661215a788f68e8b7b36764b1ff3d14`,
+and its signer receipt SHA-256 is
+`2c18b318fb538eeec69a9226f4eacf5a19066b0c1d479d26a7b6a13325cdd2cf`.
+Main-only signer run `33709201344` signed and independently revalidated all six
+exact `1.2.0+4053` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:7dc9beb122c0315017835cad6877513754b9acc5bd0120d369dd16f2602e61bb`.
+
+Candidate 25 binds platform
+`883cd1038a087fbf9f570cffcbfdfd5f5197ffd4`, unchanged client
+`54259b0f84e16c58e2d1f5f04b369af4fd0834b2`, and unchanged Core artifact
+source `cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 24
+after the platform-only webapp development-lock correction. All six client
+artifacts are byte-identical to candidate 24; candidate-specific SBOM,
+provenance and strict-v2 handoff bind those bytes to the new platform source.
+Fresh webapp, adminapp and marketing audits reported zero findings, the full
+platform local-quality gate passed, and exact post-merge Contract and
+Guardrails jobs passed. Offline supply-chain validation passed all six
+artifacts and all 11 Windows runtime files. Exact candidate 25 Windows VM
+install, physical Android Wi-Fi/Beeline, Windows 10, remaining
+protocol/lifecycle, provider, Operator, legal, and final Gate F checks remain
+open. Candidate 25 remains a 14-day Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer, or promotion was created.
+
 Run the source check with:
 
 ```text
