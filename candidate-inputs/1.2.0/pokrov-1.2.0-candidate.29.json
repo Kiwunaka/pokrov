@@ -1,0 +1,205 @@
+{
+  "schema": "pokrov.release-index.manifest/v2",
+  "candidate_id": "pokrov-1.2.0-candidate.29",
+  "candidate_created": true,
+  "promotion_authorized": false,
+  "product": {
+    "version": "1.2.0",
+    "build": 4053,
+    "package_version": "1.2.0+4053",
+    "channel": "candidate",
+    "state": "CANDIDATE"
+  },
+  "sources": {
+    "platform": {
+      "repository": "Kiwunaka/portal",
+      "commit": "efb05e0899ad51afd4453ae2fb75f8cafe96db7e"
+    },
+    "client": {
+      "repository": "Kiwunaka/POKROV-app",
+      "commit": "7e3e771fe36333a75244cbfd828c60beb84c7ff1"
+    },
+    "core": {
+      "repository": "Kiwunaka/pokrov-core",
+      "commit": "cd8f0f4169d570d693992a959d81d17c2c44884d"
+    },
+    "release_index": {
+      "repository": "Kiwunaka/pokrov",
+      "commit": "0000000000000000000000000000000000000000"
+    }
+  },
+  "contracts": {
+    "release_handoff_sha256": "f05791698e835da61680698cd2284bdd46dd2bbb76c4add69384c00b43fe9ab8",
+    "product_facts_sha256": "3df7e7a03bf6a7e62e49e2791641428fb415cdca692a67b4a48fee79a853289e",
+    "error_catalog_sha256": "7d3bf242777d5bf76bbebcf162e5969d3f83d7f68b2787051e1c4fddeadc3dc7",
+    "observability_schema_sha256": "24ae72442f778d7f1334ae0a4bf4d774738e4de275707b29420ec733af65cc17"
+  },
+  "compatibility": {
+    "core_version": "1.1.0",
+    "desktop_abi": 2,
+    "event_abi": 1,
+    "android_min_sdk": 24,
+    "windows_min_version": "Windows 10 version 1809 (build 17763)"
+  },
+  "artifacts": [
+    {
+      "id": "android-arm64-v8a",
+      "platform": "android",
+      "kind": "apk",
+      "name": "pokrov-android-arm64-v8a.apk",
+      "size": 101366678,
+      "sha256": "bd65a3f3072d642b532198ae1e703039c903f8e152edcec8c7f7616f2fc83779",
+      "github_asset_digest": "sha256:bd65a3f3072d642b532198ae1e703039c903f8e152edcec8c7f7616f2fc83779",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-arm64-v8a.apk",
+      "architectures": [
+        "arm64-v8a"
+      ],
+      "signing": {
+        "status": "TRUSTED",
+        "identity": "POKROV Android production certificate",
+        "fingerprint": "sha256:0a0602a7df5d96a0b427909d004f3ddf26def86587634bf16694da8d654b2500",
+        "lineage_sha256": "1ce7caf289a23084194523082c708d964b3ff20980fb45f81f3ca7974c143c76"
+      },
+      "sbom_sha256": [
+        "07a4e19ebdb1631c46ae324935b1bf629996d62b1597bbcd44c71606eeb42e44"
+      ],
+      "provenance_sha256": "2993b8a16d2d21f41c63f59c037e0c3fb452c3e23bf8baeb2affb7e5a14c7c77"
+    },
+    {
+      "id": "android-armeabi-v7a",
+      "platform": "android",
+      "kind": "apk",
+      "name": "pokrov-android-armeabi-v7a.apk",
+      "size": 90778788,
+      "sha256": "6c9a7933e948e49429e7a272e4f021106f673fa2bbb8fe78354b3f1a3fb99918",
+      "github_asset_digest": "sha256:6c9a7933e948e49429e7a272e4f021106f673fa2bbb8fe78354b3f1a3fb99918",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-armeabi-v7a.apk",
+      "architectures": [
+        "armeabi-v7a"
+      ],
+      "signing": {
+        "status": "TRUSTED",
+        "identity": "POKROV Android production certificate",
+        "fingerprint": "sha256:0a0602a7df5d96a0b427909d004f3ddf26def86587634bf16694da8d654b2500",
+        "lineage_sha256": "7c576204bd2fba57be719f9d226ee585dc1a2866cc078d74aa158a4c64baa86d"
+      },
+      "sbom_sha256": [
+        "07a4e19ebdb1631c46ae324935b1bf629996d62b1597bbcd44c71606eeb42e44"
+      ],
+      "provenance_sha256": "2993b8a16d2d21f41c63f59c037e0c3fb452c3e23bf8baeb2affb7e5a14c7c77"
+    },
+    {
+      "id": "android-market",
+      "platform": "android",
+      "kind": "aab",
+      "name": "pokrov-android-market.aab",
+      "size": 126263353,
+      "sha256": "f28719706dcbdb5ac0a5fd3d4d325cd7c90d68a674aafe2a7a483ae92b248aa1",
+      "github_asset_digest": "sha256:f28719706dcbdb5ac0a5fd3d4d325cd7c90d68a674aafe2a7a483ae92b248aa1",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-market.aab",
+      "architectures": [
+        "armeabi-v7a",
+        "arm64-v8a",
+        "x86_64"
+      ],
+      "signing": {
+        "status": "TRUSTED",
+        "identity": "POKROV Android production certificate",
+        "fingerprint": "sha256:0a0602a7df5d96a0b427909d004f3ddf26def86587634bf16694da8d654b2500",
+        "lineage_sha256": "00347f4a2b5ea9618e73cd74a04af70cd6161c5c2e686f19fced660f4ad212c6"
+      },
+      "sbom_sha256": [
+        "07a4e19ebdb1631c46ae324935b1bf629996d62b1597bbcd44c71606eeb42e44"
+      ],
+      "provenance_sha256": "2993b8a16d2d21f41c63f59c037e0c3fb452c3e23bf8baeb2affb7e5a14c7c77"
+    },
+    {
+      "id": "android-universal",
+      "platform": "android",
+      "kind": "apk",
+      "name": "pokrov-android-universal.apk",
+      "size": 295370161,
+      "sha256": "365d9b329a80148df5be22e7e00c0d9632e85cd18b981af3869a73cacff656e5",
+      "github_asset_digest": "sha256:365d9b329a80148df5be22e7e00c0d9632e85cd18b981af3869a73cacff656e5",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-universal.apk",
+      "architectures": [
+        "armeabi-v7a",
+        "arm64-v8a",
+        "x86_64"
+      ],
+      "signing": {
+        "status": "TRUSTED",
+        "identity": "POKROV Android production certificate",
+        "fingerprint": "sha256:0a0602a7df5d96a0b427909d004f3ddf26def86587634bf16694da8d654b2500",
+        "lineage_sha256": "fcb28b0163fb4693410dd7078a10bcda572cb8b9cdf9bb5100daf45dd438fff4"
+      },
+      "sbom_sha256": [
+        "07a4e19ebdb1631c46ae324935b1bf629996d62b1597bbcd44c71606eeb42e44"
+      ],
+      "provenance_sha256": "2993b8a16d2d21f41c63f59c037e0c3fb452c3e23bf8baeb2affb7e5a14c7c77"
+    },
+    {
+      "id": "android-x86-64",
+      "platform": "android",
+      "kind": "apk",
+      "name": "pokrov-android-x86_64.apk",
+      "size": 109951989,
+      "sha256": "143c58176193dcb84e543ba4559e61bfc2ec7bb43681c7124d83292499da570d",
+      "github_asset_digest": "sha256:143c58176193dcb84e543ba4559e61bfc2ec7bb43681c7124d83292499da570d",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-x86_64.apk",
+      "architectures": [
+        "x86_64"
+      ],
+      "signing": {
+        "status": "TRUSTED",
+        "identity": "POKROV Android production certificate",
+        "fingerprint": "sha256:0a0602a7df5d96a0b427909d004f3ddf26def86587634bf16694da8d654b2500",
+        "lineage_sha256": "9b5030324c6db3b081875974219cdf1b066d7280cee725f1d2c88cec252de0df"
+      },
+      "sbom_sha256": [
+        "07a4e19ebdb1631c46ae324935b1bf629996d62b1597bbcd44c71606eeb42e44"
+      ],
+      "provenance_sha256": "2993b8a16d2d21f41c63f59c037e0c3fb452c3e23bf8baeb2affb7e5a14c7c77"
+    },
+    {
+      "id": "windows-x64-setup",
+      "platform": "windows",
+      "kind": "exe",
+      "name": "pokrov-windows-setup-x64.exe",
+      "size": 29154403,
+      "sha256": "60487a7bb17da33dbca842a146f6eb24dddd089e532c241670c9c0fd79610451",
+      "github_asset_digest": "sha256:60487a7bb17da33dbca842a146f6eb24dddd089e532c241670c9c0fd79610451",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-windows-setup-x64.exe",
+      "architectures": [
+        "x86_64"
+      ],
+      "signing": {
+        "status": "SKIPPED_BY_OWNER",
+        "identity": "Unknown publisher",
+        "fingerprint": "NotSigned",
+        "lineage_sha256": "6ae9884894e09a75ef8c190b11f4b2958e9fc5367c906815c1aaa1f72fda4e78",
+        "exception_code": "OWNER_ACCEPTED_UNSIGNED_WINDOWS_BETA_1_2_0",
+        "distribution": "direct_download_only",
+        "warning": "Microsoft Defender SmartScreen and unknown-publisher warning expected"
+      },
+      "sbom_sha256": [
+        "07a4e19ebdb1631c46ae324935b1bf629996d62b1597bbcd44c71606eeb42e44"
+      ],
+      "provenance_sha256": "2993b8a16d2d21f41c63f59c037e0c3fb452c3e23bf8baeb2affb7e5a14c7c77"
+    }
+  ],
+  "release_notes": {
+    "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/POKROV-1.2.0-RELEASE-NOTES-RU.md",
+    "sha256": "f8f78427b115e41ced221662c802cb62641c850f97031a3c2784b51fa968b153"
+  },
+  "known_issues": {
+    "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/POKROV-1.2.0-KNOWN-ISSUES-RU.md",
+    "sha256": "87168f2f75071bac8d3aa646dc6ede625b6578fa6493d1798b2c112cfcdb271f"
+  },
+  "promotion": {
+    "rebuild": false,
+    "same_byte_required": true,
+    "stable_pointer_atomic": true,
+    "rollback_target": "1.1.6"
+  }
+}
