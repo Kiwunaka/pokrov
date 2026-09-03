@@ -628,6 +628,40 @@ Candidate 30 remains a 14-day Actions artifact only with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer, production deploy, or promotion was created.
 
+Later strict validation found stale candidate references in candidate 30's
+signed CycloneDX/SLSA metadata, including its root `bom-ref`, artifact-set
+property and provenance invocation/internal parameters. Its application bytes
+remain retained, but the immutable candidate 30 supply set is `NO_GO` and is
+superseded by candidate 31. The earlier offline-validation statement above is
+historical and must not be read as current candidate 30 readiness.
+
+Candidate 31 was generated and signed from exact release-index commit
+`6de47f0320c9262a5bd2d454f3edb83d557f33a4`. Its manifest SHA-256 is
+`dd4e99166ac3ec2c566e7d44ee93324f15ae7b3b92df6b35ff35de7053691f9a`,
+its detached signature SHA-256 is
+`959328f891a5dfa5c7c5c3f1cf2463b77137d5a7ca0812bab0b746e0a9c5c01a`,
+and its signer receipt SHA-256 is
+`8e47f3e9f298aa8e67c5d07ff5ad2be976f09091863aa42cd49c3e0ff8e8ff89`.
+Main-only signer run `33781982978` signed and independently revalidated all
+six exact `1.2.0+4053` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:49fcf8a65c3e238190fb0d0b6f171190287b286ce99f9ebf7a3e6ca6d827ef80`.
+
+Candidate 31 binds platform
+`84837ce68a028f0c81580a5f1beefddba584de6d`, client
+`7e3e771fe36333a75244cbfd828c60beb84c7ff1`, Core
+`cd8f0f4169d570d693992a959d81d17c2c44884d`, and the corrected canonical
+artifact-set SHA-256
+`dce1c4e43aa1729e87f6620da9f655482dd3a6113bb67006e319c090e0b02b9e`.
+It reuses the exact verified application bytes while replacing the complete
+candidate-bound SBOM, provenance and handoff. Strict supply validation passed
+for `6/6` artifacts and `11/11` Windows runtime files. Current ADB device and
+emulator testing was unavailable and remains `NOT_RUN`; managed transports,
+physical Android, current/brain/RU origins, provider, Operator, legal and final
+Gate F checks also remain open. Candidate 31 remains a 14-day Actions artifact
+only with `promotion_authorized=false`: no tag, GitHub Release, public assets,
+store submission, stable pointer, production deploy, or promotion was created.
+
 Run the source check with:
 
 ```text
