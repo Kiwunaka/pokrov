@@ -571,6 +571,35 @@ open. Candidate 25 remains a 14-day Actions artifact only with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer, or promotion was created.
 
+Candidate 29 was generated and signed from exact release-index commit
+`71e2c71fbc1aab0b76ca634e283eaa362e605b97`. Its manifest SHA-256 is
+`231e3d5264ba18e68c5aac9b6faa1bca3864c011fbff3771960e84a9edc1e9df`,
+its detached signature SHA-256 is
+`215f8234376d23806ad89e0d8f7d2aa0f6ad2fcc3dfeeec593e6a6f71db27bfc`,
+and its signer receipt SHA-256 is
+`097b0c3fbeb63c2e0a2557e9fc614363ef9883c233b6b99dc8c8fb3067524fcf`.
+Main-only signer run `33741376651` signed and independently revalidated all six
+exact `1.2.0+4053` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:e5683b5c7ea9472a8fc8e3689d58cf1d80f64b3effe0ddce5039a19017d1250c`.
+
+Candidate 29 binds platform
+`efb05e0899ad51afd4453ae2fb75f8cafe96db7e`, client
+`7e3e771fe36333a75244cbfd828c60beb84c7ff1`, and Core artifact source
+`cd8f0f4169d570d693992a959d81d17c2c44884d`. It supersedes candidate 25
+after the Windows installer owner-reuse correction. All six artifacts were
+rebuilt through the headless CLI path. The full client release gate, native
+Windows Release and Debug tests, Android production signing, AAB integrity,
+static archive scan and offline supply validation passed. The exact Windows
+setup then passed candidate-28-to-29 upgrade, `11/11` installed-file identity,
+ordinary-user UI launch, LocalSystem service, direct TUN/DNS connect and clean
+disconnect, and connected guest reboot recovery in the isolated Windows VM.
+Physical Android Wi-Fi/Beeline, managed-node protocol matrices, Windows 10,
+sleep/resume, provider, Operator, legal and final Gate F checks remain open.
+Candidate 29 remains a 14-day Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer, or promotion was created.
+
 Run the source check with:
 
 ```text
