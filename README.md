@@ -600,6 +600,34 @@ Candidate 29 remains a 14-day Actions artifact only with
 `promotion_authorized=false`: no tag, GitHub Release, public assets, store
 submission, stable pointer, or promotion was created.
 
+Candidate 30 was generated and signed from exact release-index commit
+`b06fe143a83aca49c1779962ad526c54e2162e42`. Its manifest SHA-256 is
+`33ceb44b445dd5f66d5b10e0e1c90da03d9a6efe3d1c4966dd2be72bf955230c`,
+its detached signature SHA-256 is
+`61169e29d521524663637c1747d7d5b70de6140332d4056b8d5c71f694c6f510`,
+and its signer receipt SHA-256 is
+`2628ec258322c6a884f60b1ca9f6533eae0a68c1d170cf971c6051e82777bba0`.
+Main-only signer run `33765307625` signed and independently revalidated all six
+exact `1.2.0+4053` artifact identities using key
+`pokrov-release-2026-01`; the retained Actions artifact digest is
+`sha256:6bf7e98d189a3436b48eba95286ad3ae960627cf261955299c71bf9bfe001c6c`.
+
+Candidate 30 binds platform
+`7c4133343871ed52257a850e829e906608412753`, client
+`7e3e771fe36333a75244cbfd828c60beb84c7ff1`, and Core artifact source
+`cd8f0f4169d570d693992a959d81d17c2c44884d`. It replaces candidate 29 after
+the first-run panel progress persistence correction. The full client CLI gate,
+native Windows Release `7/7` and Debug `8/8`, Android signing/AAB integrity and
+offline supply validation passed. The exact Windows setup also passed a
+headless in-place upgrade, `11/11` installed-file identity, LocalSystem service,
+direct TUN/DNS lifecycle and connected guest reboot recovery in the isolated
+VM. The platform correction is not yet deployed, so fresh managed-trial and
+real-node transport checks remain open together with physical Android,
+current/brain/RU origins, provider, Operator, legal and final Gate F checks.
+Candidate 30 remains a 14-day Actions artifact only with
+`promotion_authorized=false`: no tag, GitHub Release, public assets, store
+submission, stable pointer, production deploy, or promotion was created.
+
 Run the source check with:
 
 ```text
