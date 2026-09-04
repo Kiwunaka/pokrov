@@ -686,6 +686,16 @@ Candidate 32 remains a private 14-day Actions artifact only with
 `promotion_authorized=false`: no deployment, GitHub Release, public assets,
 store submission, stable pointer, or promotion was created.
 
+Candidate 33 is the next private signing input for merged platform
+`f5300053026d32826e54c02202303e1f68c65bc1`, merged client
+`6ab1bcaf39c61a0ae0c9d8328e6c95382885735e`, and unchanged exact Core
+`cd8f0f4169d570d693992a959d81d17c2c44884d`. It binds freshly built Android
+and focus-corrected Windows bytes to candidate-specific SBOM, provenance and
+strict handoff. Exact candidate VM/device/runtime checks remain open. This
+input authorizes neither deployment nor public publication; signer output is
+retained only as a private 14-day Actions artifact with
+`promotion_authorized=false`.
+
 Run the source check with:
 
 ```text
