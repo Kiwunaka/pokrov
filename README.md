@@ -686,15 +686,29 @@ Candidate 32 remains a private 14-day Actions artifact only with
 `promotion_authorized=false`: no deployment, GitHub Release, public assets,
 store submission, stable pointer, or promotion was created.
 
-Candidate 33 is the next private signing input for merged platform
+Candidate 33 was generated and signed from exact release-index commit
+`63993fba699b68641b7e972071ab7729fa9ec43c`. Its manifest SHA-256 is
+`5620c2f0558e7c9a0f8ff8dfbcd47523986dd7fdf13f061e81adab3b10a3f680`,
+its detached signature SHA-256 is
+`5115ab3cd8ee0fa49018e521f75fd9baf5d469c2793a8a47cda4a965b82d3191`,
+and its signer receipt SHA-256 is
+`f84843c81f9173072dcb3f3f551f7ef5ca9e41c21312ddec77ca0fe6cb6b78d7`.
+Main-only signer run `33851401873` signed and independently revalidated all
+six exact `1.2.0+4053` artifact identities using key
+`pokrov-release-2026-01`; the retained private Actions artifact digest is
+`sha256:e31d70082cc9417e088868f6d09a139cb0a8fecd95025b6d28b314a30f59e844`.
+
+Candidate 33 binds merged platform
 `f5300053026d32826e54c02202303e1f68c65bc1`, merged client
-`6ab1bcaf39c61a0ae0c9d8328e6c95382885735e`, and unchanged exact Core
-`cd8f0f4169d570d693992a959d81d17c2c44884d`. It binds freshly built Android
-and focus-corrected Windows bytes to candidate-specific SBOM, provenance and
-strict handoff. Exact candidate VM/device/runtime checks remain open. This
-input authorizes neither deployment nor public publication; signer output is
-retained only as a private 14-day Actions artifact with
-`promotion_authorized=false`.
+`6ab1bcaf39c61a0ae0c9d8328e6c95382885735e`, unchanged exact Core
+`cd8f0f4169d570d693992a959d81d17c2c44884d`, and canonical artifact-set
+SHA-256
+`1858db3491effa6224d3816763f7bd90a16429ae6b21c6fc97275d84f5d31978`.
+Its strict supply validation passed for `6/6` application artifacts and
+`11/11` Windows runtime files. Exact candidate VM/device/runtime checks remain
+open. Candidate 33 remains a private 14-day Actions artifact only with
+`promotion_authorized=false`: no deployment, GitHub Release, public assets,
+store submission, stable pointer, or promotion was created.
 
 Run the source check with:
 
