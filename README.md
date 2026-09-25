@@ -743,8 +743,14 @@ template SHA-256, and candidate id. The signer then:
 The private key is accepted only through the process environment, never as a
 CLI argument or repository file. Tracked candidate templates bind an exact
 Android/Windows artifact set, source tuple, SBOM, provenance, release notes and
-known issues. Candidate 1 retains the rejected Windows SCM behavior as history;
-candidate 2 binds the fail-closed replacement and freshly rebuilt artifact set.
+known issues. For the direct 1.2.0 release, a new candidate may omit the market
+AAB but must retain all four direct APK variants and the Windows setup EXE.
+Historical six-file candidates remain valid for their exact bytes. The unsigned
+Windows exception remains candidate-only; asset digests and manifest signature are
+still required.
+
+Candidate 1 retains the rejected Windows SCM behavior as history; candidate 2
+binds the fail-closed replacement and freshly rebuilt artifact set.
 Candidate 3 binds the later SPB/client correction and source-freeze build fixes.
 Candidate 4 adds the default-off AWG 3.1 and direct-DoH labs. Candidate 5 moves
 the replacement line to build `4046` and retains the later rejected runtime

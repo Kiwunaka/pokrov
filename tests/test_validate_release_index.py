@@ -86,6 +86,47 @@ class ReleaseIndexSourceTest(unittest.TestCase):
         self.assertEqual(template["owner_unsigned_windows_exception_count"], 1)
         self.assertRegex(template["template_sha256"], r"^[0-9a-f]{64}$")
 
+    def test_direct_only_candidate_keeps_every_public_download(self) -> None:
+        candidate_id = "pokrov-1.2.0-candidate.33"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            template_root = root / "candidate-inputs" / "1.2.0"
+            schema_root = root / "schemas"
+            template_root.mkdir(parents=True)
+            schema_root.mkdir()
+            shutil.copy2(
+                ROOT / "schemas" / "release-index-manifest-v2.schema.json",
+                schema_root / "release-index-manifest-v2.schema.json",
+            )
+            for suffix in ("release-notes-ru.md", "known-issues-ru.md"):
+                name = f"{candidate_id}-{suffix}"
+                shutil.copy2(ROOT / "candidate-inputs" / "1.2.0" / name, template_root / name)
+            manifest = json.loads(
+                (ROOT / "candidate-inputs" / "1.2.0" / f"{candidate_id}.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            manifest["artifacts"] = [
+                artifact
+                for artifact in manifest["artifacts"]
+                if artifact["id"] != "android-market"
+            ]
+            template_path = template_root / f"{candidate_id}.json"
+            template_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+            summaries = MODULE._validate_candidate_templates(root)
+            self.assertEqual(summaries[0]["artifact_count"], 5)
+            self.assertEqual(summaries[0]["owner_unsigned_windows_exception_count"], 1)
+
+            manifest["artifacts"] = [
+                artifact
+                for artifact in manifest["artifacts"]
+                if artifact["id"] != "android-arm64-v8a"
+            ]
+            template_path.write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaisesRegex(MODULE.ValidationError, "artifact set is incomplete"):
+                MODULE._validate_candidate_templates(root)
+
     def test_signature_verifier_accepts_only_exact_bytes(self) -> None:
         from cryptography.hazmat.primitives import serialization
         from cryptography.hazmat.primitives.asymmetric.ed25519 import (

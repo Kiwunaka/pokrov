@@ -26,6 +26,7 @@ CANDIDATE_1_2_ARTIFACT_IDS = {
     "android-x86-64",
     "windows-x64-setup",
 }
+DIRECT_1_2_ARTIFACT_IDS = CANDIDATE_1_2_ARTIFACT_IDS - {"android-market"}
 WINDOWS_CLEAN_HOST_STATUS = (
     "PASS_EXACT_PRIVATE_CI_INSTALL_SERVICE_IPC_RESTART_UNINSTALL_IDLE_NETWORK"
 )
@@ -379,8 +380,10 @@ def _validate_candidate_templates(root: Path) -> list[dict[str, Any]]:
         artifacts = manifest["artifacts"]
         ids = [artifact["id"] for artifact in artifacts]
         names = [artifact["name"] for artifact in artifacts]
-        if set(ids) != CANDIDATE_1_2_ARTIFACT_IDS or len(ids) != len(
-            CANDIDATE_1_2_ARTIFACT_IDS
+        artifact_ids = set(ids)
+        if len(ids) != len(artifact_ids) or artifact_ids not in (
+            CANDIDATE_1_2_ARTIFACT_IDS,
+            DIRECT_1_2_ARTIFACT_IDS,
         ):
             raise ValidationError("candidate template artifact set is incomplete")
         if len(names) != len(set(names)):
