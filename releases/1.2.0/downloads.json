@@ -1,0 +1,42 @@
+{
+  "product_version": "1.2.0",
+  "build_number": 4061,
+  "source_revision": "be0f86aa34044c2429d62cb019ebc391031b9593",
+  "tag": "v1.2.0",
+  "android_distribution": "direct_apk",
+  "windows_distribution": "unsigned_beta",
+  "windows_warning": "Неподписанная бета для Windows. Microsoft Defender SmartScreen может показать предупреждение о неизвестном издателе.",
+  "rollback_url": "https://github.com/Kiwunaka/pokrov/releases/tag/v1.1.6",
+  "artifacts": [
+    {
+      "name": "pokrov-android-arm64-v8a.apk",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-arm64-v8a.apk",
+      "size_bytes": 101611855,
+      "sha256": "d4321b463fae5ad9a19706dc98117a1334334dbcd69a14a2d5b7f841184b3936"
+    },
+    {
+      "name": "pokrov-android-armeabi-v7a.apk",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-armeabi-v7a.apk",
+      "size_bytes": 91153373,
+      "sha256": "eae30015f2d865f8724e20f6eed6e669a78c31a9f04732394252b7723b50b4a3"
+    },
+    {
+      "name": "pokrov-android-x86_64.apk",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-x86_64.apk",
+      "size_bytes": 110522734,
+      "sha256": "2640291e7740f4ecd961bdff8c280930d31c01b4ed9d3de4aed15471c272be87"
+    },
+    {
+      "name": "pokrov-android-universal.apk",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-android-universal.apk",
+      "size_bytes": 296186666,
+      "sha256": "112e707a0df764db4bba0463935507a976f20169a1e49ddd45b870ec80c7d805"
+    },
+    {
+      "name": "pokrov-windows-setup-x64.exe",
+      "url": "https://github.com/Kiwunaka/pokrov/releases/download/v1.2.0/pokrov-windows-setup-x64.exe",
+      "size_bytes": 29357349,
+      "sha256": "b00c951085f45b2649aa6a3c3f30ea67b8dcbd981f8809eb2547a8594ff0d026"
+    }
+  ]
+}
