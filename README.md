@@ -1,18 +1,19 @@
 # POKROV release index
 
-Public release-only repository for POKROV Android and Windows downloads. Source
-development remains in the private POKROV-app repository.
+Public release-only repository for POKROV Android and Windows downloads. Client
+source development remains in the [POKROV-app repository](https://github.com/Kiwunaka/POKROV-app).
 
 ## Current public downloads
 
-[POKROV 1.3.0+4080](https://github.com/Kiwunaka/pokrov/releases/tag/v1.3.0)
+[POKROV 1.4.5+4086](https://github.com/Kiwunaka/pokrov/releases/tag/v1.4.5)
 is published with direct Android APKs and an unsigned Windows beta. Microsoft
 Defender SmartScreen may show an unknown-publisher warning for Windows.
-[Download metadata](releases/1.3.0/downloads.json) describes the published files;
+[Download metadata](releases/1.4.5/downloads.json) is an exact copy of the published
+`release-index.json` and describes the published files;
 the binaries are stored only in GitHub Releases. The
-[1.2.0](https://github.com/Kiwunaka/pokrov/releases/tag/v1.2.0) and
-[1.1.6](https://github.com/Kiwunaka/pokrov/releases/tag/v1.1.6) assets remain
-available for rollback.
+[1.4.4](https://github.com/Kiwunaka/pokrov/releases/tag/v1.4.4) assets remain
+available for rollback. The [latest public release](https://github.com/Kiwunaka/pokrov/releases/latest)
+is the discovery link for subsequent releases; drafts are not public downloads.
 
 The candidate policy and history below describe earlier work and do not apply
 to this owner-approved publication.
